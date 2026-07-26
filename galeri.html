@@ -196,7 +196,7 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+   <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/app.js"></script>
     <script>
@@ -226,64 +226,105 @@
                 e.preventDefault();
                 const btnSubmit = document.getElementById('btnSubmitGaleri');
                 btnSubmit.disabled = true;
-                btnSubmit.innerText = "Memproses Gambar...";
+                btnSubmit.innerText = "Mengompres & Memproses Foto...";
 
-                const idx = parseInt(document.getElementById('galeriIndex').value);
-                const title = document.getElementById('galeriTitle').value.trim();
-                const category = document.getElementById('galeriCategory').value;
-                const desc = document.getElementById('galeriDesc').value.trim();
-                const filesInput = document.getElementById('galeriFiles');
+                try {
+                    const idx = parseInt(document.getElementById('galeriIndex').value);
+                    const title = document.getElementById('galeriTitle').value.trim();
+                    const category = document.getElementById('galeriCategory').value;
+                    const desc = document.getElementById('galeriDesc').value.trim();
+                    const filesInput = document.getElementById('galeriFiles');
 
-                let images = [];
+                    let images = [];
 
-                if (idx >= 0 && filesInput.files.length === 0) {
-                    // Jika mode Edit & tidak mengunggah file baru, gunakan foto lama
-                    images = galleryItems[idx].images || [galleryItems[idx].img];
-                } else {
-                    if (filesInput.files.length === 0) {
-                        alert("Harap pilih minimal 1 foto!");
-                        btnSubmit.disabled = false;
-                        btnSubmit.innerText = "Simpan Foto";
-                        return;
+                    if (idx >= 0 && filesInput.files.length === 0) {
+                        images = galleryItems[idx].images || [galleryItems[idx].img];
+                    } else {
+                        if (filesInput.files.length === 0) {
+                            alert("Harap pilih minimal 1 foto!");
+                            btnSubmit.disabled = false;
+                            btnSubmit.innerText = "Simpan Foto";
+                            return;
+                        }
+
+                        if (filesInput.files.length > 5) {
+                            alert("Maksimal foto yang dapat diunggah adalah 5 foto!");
+                            btnSubmit.disabled = false;
+                            btnSubmit.innerText = "Simpan Foto";
+                            return;
+                        }
+
+                        // Kompres seluruh foto yang dipilih
+                        for (let i = 0; i < filesInput.files.length; i++) {
+                            const compressedData = await convertBase64(filesInput.files[i]);
+                            images.push(compressedData);
+                        }
                     }
 
-                    if (filesInput.files.length > 5) {
-                        alert("Maksimal foto yang dapat diunggah adalah 5 foto!");
-                        btnSubmit.disabled = false;
-                        btnSubmit.innerText = "Simpan Foto";
-                        return;
+                    const newItem = { title, category, desc, images };
+
+                    if (idx >= 0 && idx < galleryItems.length) {
+                        galleryItems[idx] = newItem;
+                    } else {
+                        galleryItems.unshift(newItem);
                     }
 
-                    // Convert all selected files to Base64
-                    for (let i = 0; i < filesInput.files.length; i++) {
-                        const base64 = await convertBase64(filesInput.files[i]);
-                        images.push(base64);
-                    }
+                    // Simpan ke storage
+                    saveToStorage('galeri', galleryItems);
+                    
+                    bootstrap.Modal.getInstance(document.getElementById('modalGaleri')).hide();
+                    renderGallery(currentFilter);
+                } catch (error) {
+                    alert("Gagal menyimpan foto! Ukuran total foto masih terlalu besar untuk memori browser. Coba kurangi jumlah/ukuran foto.");
+                    console.error(error);
+                } finally {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerText = "Simpan Foto";
                 }
-
-                const newItem = { title, category, desc, images };
-
-                if (idx >= 0 && idx < galleryItems.length) {
-                    galleryItems[idx] = newItem;
-                } else {
-                    galleryItems.unshift(newItem);
-                }
-
-                saveToStorage('galeri', galleryItems);
-                bootstrap.Modal.getInstance(document.getElementById('modalGaleri')).hide();
-                
-                btnSubmit.disabled = false;
-                btnSubmit.innerText = "Simpan Foto";
-                renderGallery(currentFilter);
             });
         });
 
+        // Fungsi Konversi & Kompresi Foto Otomatis (Maksimal Resolusi 1000px, Kualitas 0.7)
         function convertBase64(file) {
             return new Promise((resolve, reject) => {
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
-                fileReader.onload = () => resolve(fileReader.result);
-                fileReader.onerror = (error) => reject(error);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 1000;
+                        const MAX_HEIGHT = 1000;
+                        let width = img.width;
+                        let height = img.height;
+
+                        // Hitung skala rasio gambar
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Kompres gambar ke format JPEG dengan kualitas 70%
+                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        resolve(compressedBase64);
+                    };
+                    img.onerror = (error) => reject(error);
+                };
+                reader.onerror = (error) => reject(error);
             });
         }
 
