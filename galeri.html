@@ -8,18 +8,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <style>
-        .gallery-card {
-            cursor: pointer;
-            overflow: hidden;
-        }
-        .gallery-card img {
-            transition: transform 0.3s ease;
-            height: 220px;
-            object-fit: cover;
-        }
-        .gallery-card:hover img {
-            transform: scale(1.08);
-        }
+        .gallery-card { cursor: pointer; overflow: hidden; }
+        .gallery-card img { transition: transform 0.3s ease; height: 220px; object-fit: cover; }
+        .gallery-card:hover img { transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -38,7 +29,7 @@
             <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
             <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
             <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
-            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="galeri.html" class="nav-link active"><i class="fas fa-images"></i> Galeri</a></li>
             <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
             <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
         </ul>
@@ -60,7 +51,7 @@
                 <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
                 <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
                 <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
-                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="galeri.html" class="nav-link active" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
                 <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
                 <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
             </ul>
@@ -85,9 +76,15 @@
         <div class="content-body">
             <!-- Header Section -->
             <div class="row align-items-center mb-4">
-                <div class="col-12">
+                <div class="col-12 col-md-8 mb-2 mb-md-0">
                     <h2 class="fw-bold mb-1">Dokumentasi Kegiatan Warga</h2>
                     <p class="text-muted mb-0">Arsip foto kebersamaan warga RT 05 RW 02 dalam berbagai aktivitas sosial.</p>
+                </div>
+                <!-- Tombol Tambah Foto Khusus Pengurus -->
+                <div class="col-12 col-md-4 text-md-end">
+                    <button class="btn btn-primary btn-pengurus" data-bs-toggle="modal" data-bs-target="#modalGaleri" onclick="resetFormGaleri()">
+                        <i class="fas fa-plus me-1"></i> Tambah Foto Baru
+                    </button>
                 </div>
             </div>
 
@@ -141,77 +138,85 @@
         </div>
     </div>
 
+    <!-- Modal Form Tambah / Edit Galeri (Khusus Pengurus) -->
+    <div class="modal fade" id="modalGaleri" tabindex="-1" aria-labelledby="modalGaleriLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="modalGaleriLabel">Tambah Foto Kegiatan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="galeriForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="galeriIndex" value="-1">
+                        <div class="mb-3">
+                            <label for="galeriTitle" class="form-label">Judul Foto / Kegiatan</label>
+                            <input type="text" class="form-control" id="galeriTitle" required placeholder="Contoh: Kerja Bakti Blok B">
+                        </div>
+                        <div class="mb-3">
+                            <label for="galeriCategory" class="form-label">Kategori</label>
+                            <select class="form-select" id="galeriCategory" required>
+                                <option value="Kerja Bakti">Kerja Bakti</option>
+                                <option value="HUT RI">HUT RI</option>
+                                <option value="Pengajian">Pengajian</option>
+                                <option value="Posyandu">Posyandu</option>
+                                <option value="Kegiatan Anak">Kegiatan Anak</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="galeriImg" class="form-label">URL Gambar (Image Link)</label>
+                            <input type="url" class="form-control" id="galeriImg" required placeholder="https://images.unsplash.com/...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="galeriDesc" class="form-label">Deskripsi Foto</label>
+                            <textarea class="form-control" id="galeriDesc" rows="3" required placeholder="Deskripsi singkat kegiatan..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Foto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/app.js"></script>
     <script>
-        const galleryItems = [
-            {
-                title: "Membersihkan Selokan Blok B",
-                category: "Kerja Bakti",
-                desc: "Kerja bakti pembersihan selokan got blok B guna melancarkan aliran air menjelang musim hujan.",
-                img: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Kerja Bakti Pengecatan Gapura Utama",
-                category: "Kerja Bakti",
-                desc: "Gotong royong bapak-bapak mengecat gapura pembatas RT menyambut HUT Kemerdekaan RI.",
-                img: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Upacara Bendera 17 Agustus 2025",
-                category: "HUT RI",
-                desc: "Upacara khidmat pengibaran bendera merah putih tingkat RT diikuti seluruh warga di lapangan utama.",
-                img: "https://images.unsplash.com/photo-1568051243851-f9b136146e97?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Lomba Makan Kerupuk Anak-anak",
-                category: "HUT RI",
-                desc: "Keseruan lomba makan kerupuk anak-anak memperingati Hari Kemerdekaan Republik Indonesia.",
-                img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Pengajian Warga & Silaturahmi Bulanan",
-                category: "Pengajian",
-                desc: "Pengajian rutin ibu-ibu RT bertempat di Mushola Al-Ikhlas untuk meningkatkan keimanan dan tali silaturahmi.",
-                img: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Halal Bihalal Idul Fitri Warga RT 05",
-                category: "Pengajian",
-                desc: "Momen berjabat tangan dan saling memaafkan warga RT 05 pasca Hari Raya Idul Fitri.",
-                img: "https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Penimbangan Balita Bulanan Posyandu",
-                category: "Posyandu",
-                desc: "Pemeriksaan pertumbuhan balita, penimbangan berat badan, serta pemberian imunisasi di Posyandu Cempaka.",
-                img: "https://images.unsplash.com/photo-1505151828126-66d4ee280ab1?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Pemeriksaan Kesehatan Lansia Gratis",
-                category: "Posyandu",
-                desc: "Program cek tekanan darah, gula darah, dan kolesterol gratis untuk warga lansia RT.",
-                img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Lomba Mewarnai Tingkat Anak RT",
-                category: "Kegiatan Anak",
-                desc: "Kreativitas anak-anak RT dalam menuangkan warna pada gambar bertema Kemerdekaan.",
-                img: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&auto=format&fit=crop&q=80"
-            },
-            {
-                title: "Senam Pagi Anak & Remaja RT 05",
-                category: "Kegiatan Anak",
-                desc: "Kegiatan olahraga senam ceria hari Minggu pagi bersama anak-anak dan remaja RT.",
-                img: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=800&auto=format&fit=crop&q=80"
-            }
+        const defaultGallery = [
+            { title: "Membersihkan Selokan Blok B", category: "Kerja Bakti", desc: "Kerja bakti pembersihan selokan got blok B guna melancarkan aliran air menjelang musim hujan.", img: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&auto=format&fit=crop&q=80" },
+            { title: "Kerja Bakti Pengecatan Gapura Utama", category: "Kerja Bakti", desc: "Gotong royong bapak-bapak mengecat gapura pembatas RT menyambut HUT Kemerdekaan RI.", img: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800&auto=format&fit=crop&q=80" },
+            { title: "Upacara Bendera 17 Agustus 2025", category: "HUT RI", desc: "Upacara khidmat pengibaran bendera merah putih tingkat RT diikuti seluruh warga di lapangan utama.", img: "https://images.unsplash.com/photo-1568051243851-f9b136146e97?w=800&auto=format&fit=crop&q=80" },
+            { title: "Lomba Makan Kerupuk Anak-anak", category: "HUT RI", desc: "Keseruan lomba makan kerupuk anak-anak memperingati Hari Kemerdekaan Republik Indonesia.", img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=800&auto=format&fit=crop&q=80" },
+            { title: "Pengajian Warga & Silaturahmi Bulanan", category: "Pengajian", desc: "Pengajian rutin ibu-ibu RT bertempat di Mushola Al-Ikhlas untuk meningkatkan keimanan dan tali silaturahmi.", img: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800&auto=format&fit=crop&q=80" },
+            { title: "Halal Bihalal Idul Fitri Warga RT 05", category: "Pengajian", desc: "Momen berjabat tangan dan saling memaafkan warga RT 05 pasca Hari Raya Idul Fitri.", img: "https://images.unsplash.com/photo-1519817650390-64a93db51149?w=800&auto=format&fit=crop&q=80" },
+            { title: "Penimbangan Balita Bulanan Posyandu", category: "Posyandu", desc: "Pemeriksaan pertumbuhan balita, penimbangan berat badan, serta pemberian imunisasi di Posyandu Cempaka.", img: "https://images.unsplash.com/photo-1505151828126-66d4ee280ab1?w=800&auto=format&fit=crop&q=80" },
+            { title: "Pemeriksaan Kesehatan Lansia Gratis", category: "Posyandu", desc: "Program cek tekanan darah, gula darah, dan kolesterol gratis untuk warga lansia RT.", img: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&auto=format&fit=crop&q=80" },
+            { title: "Lomba Mewarnai Tingkat Anak RT", category: "Kegiatan Anak", desc: "Kreativitas anak-anak RT dalam menuangkan warna pada gambar bertema Kemerdekaan.", img: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&auto=format&fit=crop&q=80" },
+            { title: "Senam Pagi Anak & Remaja RT 05", category: "Kegiatan Anak", desc: "Kegiatan olahraga senam ceria hari Minggu pagi bersama anak-anak dan remaja RT.", img: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=800&auto=format&fit=crop&q=80" }
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
+        let galleryItems = [];
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load data galeri dari LocalStorage
+            galleryItems = await loadData('galeri');
+            if (!galleryItems || galleryItems.length === 0) {
+                galleryItems = [...defaultGallery];
+                saveToStorage('galeri', galleryItems);
+            }
+
+            // Sembunyikan elemen pengurus jika bukan pengurus yang login
+            if (!isPengurus()) {
+                document.querySelectorAll('.btn-pengurus').forEach(btn => btn.style.display = 'none');
+            }
+
             renderGallery('all');
 
-            // Hook categories buttons state transitions
+            // Hook categories buttons active state
             const buttons = document.querySelectorAll('#galleryTabs button');
             buttons.forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -219,30 +224,73 @@
                     e.target.classList.add('active');
                 });
             });
+
+            // Submit Form Tambah / Edit Galeri
+            document.getElementById('galeriForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const idx = parseInt(document.getElementById('galeriIndex').value);
+                const title = document.getElementById('galeriTitle').value.trim();
+                const category = document.getElementById('galeriCategory').value;
+                const img = document.getElementById('galeriImg').value.trim();
+                const desc = document.getElementById('galeriDesc').value.trim();
+
+                const newItem = { title, category, desc, img };
+
+                if (idx >= 0 && idx < galleryItems.length) {
+                    // Update
+                    galleryItems[idx] = newItem;
+                } else {
+                    // Tambah Baru
+                    galleryItems.unshift(newItem);
+                }
+
+                saveToStorage('galeri', galleryItems);
+                bootstrap.Modal.getInstance(document.getElementById('modalGaleri')).hide();
+                renderGallery(currentFilter);
+            });
         });
 
         function filterGallery(cat) {
+            currentFilter = cat;
             renderGallery(cat);
         }
 
         function renderGallery(category) {
             const grid = document.getElementById('galleryGrid');
             grid.innerHTML = '';
-
+            
             const filtered = category === 'all' 
                 ? galleryItems 
                 : galleryItems.filter(item => item.category === category);
 
-            filtered.forEach(item => {
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-12 text-center text-muted py-5">Belum ada foto untuk kategori ini.</div>`;
+                return;
+            }
+
+            filtered.forEach((item) => {
+                const rawIndex = galleryItems.indexOf(item);
+                const showAdminButtons = isPengurus();
+
                 grid.innerHTML += `
                     <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
-                        <div class="card gallery-card h-100" onclick="openLightbox('${item.img}', '${item.title}', '${item.category}', '${item.desc}')">
-                            <img src="${item.img}" class="card-img-top" alt="${item.title}">
-                            <div class="card-body p-3">
+                        <div class="card gallery-card h-100 position-relative">
+                            <img src="${item.img}" class="card-img-top" alt="${item.title}" onclick="openLightbox('${item.img}', '${item.title}', '${item.category}', '${item.desc}')">
+                            <div class="card-body p-3" onclick="openLightbox('${item.img}', '${item.title}', '${item.category}', '${item.desc}')">
                                 <span class="badge bg-secondary mb-2" style="font-size: 0.7rem;">${item.category}</span>
                                 <h6 class="fw-bold mb-1 text-truncate">${item.title}</h6>
                                 <p class="small text-muted mb-0 text-truncate-2">${item.desc}</p>
                             </div>
+                            ${showAdminButtons ? `
+                                <div class="card-footer bg-light border-top d-flex justify-content-end gap-1 p-2">
+                                    <button class="btn btn-sm btn-outline-success" onclick="editGaleri(${rawIndex})">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteGaleri(${rawIndex})">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -254,9 +302,40 @@
             document.getElementById('lightboxTitle').innerText = title;
             document.getElementById('lightboxCategory').innerText = category;
             document.getElementById('lightboxDesc').innerText = desc;
-
             const modal = new bootstrap.Modal(document.getElementById('lightboxModal'));
             modal.show();
+        }
+
+        function resetFormGaleri() {
+            document.getElementById('galeriIndex').value = "-1";
+            document.getElementById('modalGaleriLabel').innerText = "Tambah Foto Kegiatan";
+            document.getElementById('galeriForm').reset();
+        }
+
+        function editGaleri(idx) {
+            const item = galleryItems[idx];
+            if (!item) return;
+
+            document.getElementById('galeriIndex').value = idx;
+            document.getElementById('modalGaleriLabel').innerText = "Edit Foto Kegiatan";
+            document.getElementById('galeriTitle').value = item.title;
+            document.getElementById('galeriCategory').value = item.category;
+            document.getElementById('galeriImg').value = item.img;
+            document.getElementById('galeriDesc').value = item.desc;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalGaleri'));
+            modal.show();
+        }
+
+        function deleteGaleri(idx) {
+            const item = galleryItems[idx];
+            if (!item) return;
+
+            if (confirm(`Apakah Anda yakin ingin menghapus foto "${item.title}"?`)) {
+                galleryItems.splice(idx, 1);
+                saveToStorage('galeri', galleryItems);
+                renderGallery(currentFilter);
+            }
         }
     </script>
 </body>
