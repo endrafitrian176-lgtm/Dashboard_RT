@@ -284,7 +284,13 @@
     const doc = documentList[idx];
     const s = getSettings();
 
-    // Format HTML yang kompatibel dengan Microsoft Word
+    // Isi paragraf dokumen
+    const docText = doc.content.body
+        .replace('[NAMA WARGA]', 'Budi Santoso')
+        .replace('[NIK WARGA]', '3275010908870002')
+        .replace('[ALAMAT WARGA]', 'Blok A1 No. 10');
+
+    // Struktur HTML berbasis Tabel murni agar Microsoft Word membacanya dengan rapi
     const wordContent = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' 
           xmlns:w='urn:schemas-microsoft-com:office:word' 
@@ -292,60 +298,62 @@
     <head>
         <meta charset='utf-8'>
         <title>${doc.name}</title>
-        <style>
-            body { font-family: 'Arial', sans-serif; font-size: 12pt; line-height: 1.6; margin: 40px; }
-            .text-center { text-align: center; }
-            .fw-bold { font-weight: bold; }
-            .kop-surat { border-bottom: 3px double #000; margin-bottom: 20px; padding-bottom: 10px; }
-            .row { display: flex; justify-content: space-between; margin-top: 50px; }
-            .col-6 { width: 48%; text-align: center; float: left; }
-            .clear { clear: both; }
-        </style>
     </head>
-    <body>
-        <div class="text-center kop-surat">
-            <h3 class="fw-bold" style="margin:0;">RUKUN TETANGGA ${s.rt} RW ${s.rw}</h3>
-            <h4 class="fw-bold" style="margin:0;">KELURAHAN ${s.kelurahan.toUpperCase()} - KECAMATAN ${s.kecamatan.toUpperCase()}</h4>
-            <p style="font-size: 10pt; margin: 5px 0;">Sekretariat: ${s.sekretariat}, Kelurahan ${s.kelurahan}, ${s.kota}. Kode Pos: ${s.kodepos}</p>
+    <body style="font-family: Arial, sans-serif; font-size: 11pt; margin: 0; padding: 20px;">
+        
+        <!-- KOP SURAT BERBASIS TABEL -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 5px;">
+            <tr>
+                <td align="center">
+                    <b style="font-size: 14pt;">RUKUN TETANGGA ${s.rt} RW ${s.rw}</b><br>
+                    <b style="font-size: 12pt;">KELURAHAN ${s.kelurahan.toUpperCase()} - KECAMATAN ${s.kecamatan.toUpperCase()}</b><br>
+                    <span style="font-size: 9pt;">Sekretariat: ${s.sekretariat}, Kelurahan ${s.kelurahan}, ${s.kota}. Kode Pos: ${s.kodepos}</span>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- GARIS BORDER KOP SURAT -->
+        <hr style="border: 0; border-top: 3px solid #000; margin-bottom: 20px;">
+
+        <!-- JUDUL & NOMOR SURAT -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 25px;">
+            <tr>
+                <td align="center">
+                    <u style="font-size: 12pt;"><b>SURAT KETERANGAN ${doc.content.type.toUpperCase()}</b></u><br>
+                    <span style="font-size: 10pt;">Nomor: ${Math.floor(Math.random() * 200) + 50}/RT${s.rt}/RW${s.rw}/VII/2026</span>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ISI SURAT -->
+        <div style="text-align: justify; line-height: 1.6; margin-bottom: 40px;">
+            <p style="text-indent: 30px;">${docText.replace(/\n/g, '<br>')}</p>
         </div>
 
-        <div class="text-center" style="margin-bottom: 30px;">
-            <h4 class="fw-bold" style="text-decoration: underline; margin:0;">SURAT KETERANGAN ${doc.content.type}</h4>
-            <p style="font-size: 11pt; margin: 5px 0;">Nomor: ${Math.floor(Math.random() * 200) + 50}/RT${s.rt}/RW${s.rw}/VII/2026</p>
-        </div>
+        <!-- TANDA TANGAN (TABLE 2 KOLOM RAPI) -->
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="50%" align="center" valign="top">
+                    Pemohon,<br><br><br><br><br>
+                    <b><u>( Budi Santoso )</u></b>
+                </td>
+                <td width="50%" align="center" valign="top">
+                    ${s.kota}, 26 Juli 2026<br>
+                    Ketua RT ${s.rt} Kel. ${s.kelurahan},<br><br><br><br><br>
+                    <b><u>( Hendra Wijaya )</u></b>
+                </td>
+            </tr>
+        </table>
 
-        <div style="margin-bottom: 40px; text-align: justify;">
-            <p style="white-space: pre-line; line-height: 1.8;">
-                ${doc.content.body.replace('[NAMA WARGA]', 'Budi Santoso').replace('[NIK WARGA]', '3275010908870002').replace('[ALAMAT WARGA]', 'Blok A1 No. 10')}
-            </p>
-        </div>
-
-        <div style="margin-top: 60px;">
-            <table width="100%" style="border: none;">
-                <tr>
-                    <td width="50%" align="center">
-                        <p>Pemohon,</p>
-                        <br><br><br>
-                        <p><b><u>( Budi Santoso )</u></b></p>
-                    </td>
-                    <td width="50%" align="center">
-                        <p>${s.kota}, 26 Juli 2026<br>Ketua RT ${s.rt} ${s.kelurahan},</p>
-                        <br><br>
-                        <p><b><u>( Hendra Wijaya )</u></b></p>
-                    </td>
-                </tr>
-            </table>
-        </div>
     </body>
     </html>
     `;
 
-    // Buat Blob dengan MIME Type Microsoft Word
+    // Buat Blob dengan byte order mark (\ufeff) UTF-8
     const blob = new Blob(['\ufeff' + wordContent], { type: 'application/msword' });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
     
-    // Set nama file hasil unduhan ber-ekstensi .doc
     const fileName = `${doc.name.toLowerCase().replace(/ /g, '_')}.doc`;
     
     link.setAttribute("href", url);
@@ -354,6 +362,7 @@
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
 }
     </script>
 </body>
