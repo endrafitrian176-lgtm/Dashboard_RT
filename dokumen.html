@@ -280,40 +280,81 @@
             modal.show();
         }
 
-        function downloadDoc(idx) {
-            const doc = documentList[idx];
-            const s = getSettings();
-            // Format layout text
-            const docText = `
-========================================================================
-                      RUKUN TETANGGA ${s.rt} RW ${s.rw}
-             KELURAHAN ${s.kelurahan.toUpperCase()} - KECAMATAN ${s.kecamatan.toUpperCase()}
-========================================================================
+    function downloadDoc(idx) {
+    const doc = documentList[idx];
+    const s = getSettings();
 
-                 SURAT KETERANGAN ${doc.content.type}
-                 Nomor: ${Math.floor(Math.random() * 200) + 50}/RT${s.rt}/RW${s.rw}/VII/2026
+    // Format HTML yang kompatibel dengan Microsoft Word
+    const wordContent = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+          xmlns:w='urn:schemas-microsoft-com:office:word' 
+          xmlns='http://www.w3.org/TR/REC-html40'>
+    <head>
+        <meta charset='utf-8'>
+        <title>${doc.name}</title>
+        <style>
+            body { font-family: 'Arial', sans-serif; font-size: 12pt; line-height: 1.6; margin: 40px; }
+            .text-center { text-align: center; }
+            .fw-bold { font-weight: bold; }
+            .kop-surat { border-bottom: 3px double #000; margin-bottom: 20px; padding-bottom: 10px; }
+            .row { display: flex; justify-content: space-between; margin-top: 50px; }
+            .col-6 { width: 48%; text-align: center; float: left; }
+            .clear { clear: both; }
+        </style>
+    </head>
+    <body>
+        <div class="text-center kop-surat">
+            <h3 class="fw-bold" style="margin:0;">RUKUN TETANGGA ${s.rt} RW ${s.rw}</h3>
+            <h4 class="fw-bold" style="margin:0;">KELURAHAN ${s.kelurahan.toUpperCase()} - KECAMATAN ${s.kecamatan.toUpperCase()}</h4>
+            <p style="font-size: 10pt; margin: 5px 0;">Sekretariat: ${s.sekretariat}, Kelurahan ${s.kelurahan}, ${s.kota}. Kode Pos: ${s.kodepos}</p>
+        </div>
 
-${doc.content.body.replace('[NAMA WARGA]', 'Budi Santoso').replace('[NIK WARGA]', '3275010908870002').replace('[ALAMAT WARGA]', 'Blok A1 No. 10')}
+        <div class="text-center" style="margin-bottom: 30px;">
+            <h4 class="fw-bold" style="text-decoration: underline; margin:0;">SURAT KETERANGAN ${doc.content.type}</h4>
+            <p style="font-size: 11pt; margin: 5px 0;">Nomor: ${Math.floor(Math.random() * 200) + 50}/RT${s.rt}/RW${s.rw}/VII/2026</p>
+        </div>
 
-${s.kota}, 26 Juli 2026
+        <div style="margin-bottom: 40px; text-align: justify;">
+            <p style="white-space: pre-line; line-height: 1.8;">
+                ${doc.content.body.replace('[NAMA WARGA]', 'Budi Santoso').replace('[NIK WARGA]', '3275010908870002').replace('[ALAMAT WARGA]', 'Blok A1 No. 10')}
+            </p>
+        </div>
 
-Pemohon,                                   Ketua RT ${s.rt} ${s.kelurahan},
+        <div style="margin-top: 60px;">
+            <table width="100%" style="border: none;">
+                <tr>
+                    <td width="50%" align="center">
+                        <p>Pemohon,</p>
+                        <br><br><br>
+                        <p><b><u>( Budi Santoso )</u></b></p>
+                    </td>
+                    <td width="50%" align="center">
+                        <p>${s.kota}, 26 Juli 2026<br>Ketua RT ${s.rt} ${s.kelurahan},</p>
+                        <br><br>
+                        <p><b><u>( Hendra Wijaya )</u></b></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+    `;
 
-
-
-( Budi Santoso )                           ( Hendra Wijaya )
-            `;
-
-            const blob = new Blob([docText], { type: 'text/plain;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `${doc.name.toLowerCase().replace(/ /g, '_')}.txt`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+    // Buat Blob dengan MIME Type Microsoft Word
+    const blob = new Blob(['\ufeff' + wordContent], { type: 'application/msword' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    // Set nama file hasil unduhan ber-ekstensi .doc
+    const fileName = `${doc.name.toLowerCase().replace(/ /g, '_')}.doc`;
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
     </script>
 </body>
 </html>
