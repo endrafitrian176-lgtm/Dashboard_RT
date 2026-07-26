@@ -75,7 +75,11 @@
                     <h2 class="fw-bold mb-1">Agenda Kegiatan</h2>
                     <p class="text-muted mb-0">Jadwal rapat, posyandu, kerja bakti, pengajian, dan event sosial warga.</p>
                 </div>
-                <div class="col-12 col-md-6 text-md-end no-print">
+                <div class="col-12 col-md-6 text-md-end no-print d-flex gap-2 justify-content-md-end">
+                    <!-- Tombol Tambah Agenda -->
+                    <button class="btn btn-primary" onclick="openAgendaModal()">
+                        <i class="fas fa-plus me-1"></i> Tambah Agenda
+                    </button>
                     <button class="btn btn-outline-danger" onclick="window.print()">
                         <i class="fas fa-print me-1"></i> Cetak Agenda
                     </button>
@@ -108,13 +112,59 @@
         </div>
     </div>
 
+    <!-- Modal Tambah / Edit Agenda -->
+    <div class="modal fade" id="agendaModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="agendaModalTitle">Tambah Agenda Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="agendaForm">
+                        <input type="hidden" id="agendaId">
+                        <div class="mb-3">
+                            <label for="agendaJudul" class="form-label fw-bold">Judul Kegiatan</label>
+                            <input type="text" class="form-control" id="agendaJudul" placeholder="Contoh: Kerja Bakti RT" required>
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="agendaTanggal" class="form-label fw-bold">Tanggal</label>
+                                <input type="date" class="form-control" id="agendaTanggal" required>
+                            </div>
+                            <div class="col-6">
+                                <label for="agendaJam" class="form-label fw-bold">Jam (WIB)</label>
+                                <input type="text" class="form-control" id="agendaJam" placeholder="Contoh: 08:00 - 11:00" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agendaLokasi" class="form-label fw-bold">Lokasi</label>
+                            <input type="text" class="form-control" id="agendaLokasi" placeholder="Contoh: Balai RT 05" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agendaDeskripsi" class="form-label fw-bold">Deskripsi / Catatan</label>
+                            <textarea class="form-control" id="agendaDeskripsi" rows="3" placeholder="Penjelasan singkat agenda..."></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/app.js"></script>
     <script>
         let rawAgendas = [];
+        let agendaModalBS;
 
         document.addEventListener('DOMContentLoaded', async () => {
+            agendaModalBS = new bootstrap.Modal(document.getElementById('agendaModal'));
+            
             rawAgendas = await loadData('agenda');
             
             // Default sort: Ascending by date
@@ -124,6 +174,7 @@
 
             document.getElementById('searchInput').addEventListener('input', applyFilters);
             document.getElementById('timeFilter').addEventListener('change', applyFilters);
+            document.getElementById('agendaForm').addEventListener('submit', handleFormSubmit);
         });
 
         function applyFilters() {
@@ -133,7 +184,9 @@
             now.setHours(0, 0, 0, 0); // Start of today
 
             let filtered = rawAgendas.filter(a => {
-                const matchQuery = a.judul.toLowerCase().includes(query) || a.deskripsi.toLowerCase().includes(query) || a.lokasi.toLowerCase().includes(query);
+                const matchQuery = (a.judul || '').toLowerCase().includes(query) || 
+                                   (a.deskripsi || '').toLowerCase().includes(query) || 
+                                   (a.lokasi || '').toLowerCase().includes(query);
                 
                 const agendaDate = new Date(a.tanggal);
                 agendaDate.setHours(0,0,0,0);
@@ -148,7 +201,6 @@
                 return matchQuery && matchTime;
             });
 
-            // If past, we might want descending date sort for relevance. Let's check
             if (timeVal === 'past') {
                 filtered.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
             } else {
@@ -179,21 +231,22 @@
                 let iconClass = 'fa-calendar-alt';
                 let accentColor = 'var(--accent-color)';
                 
-                if (a.judul.toLowerCase().includes('rapat')) {
+                const titleLower = (a.judul || '').toLowerCase();
+                if (titleLower.includes('rapat')) {
                     iconClass = 'fa-user-tie';
-                    accentColor = '#f59e0b'; // Amber
-                } else if (a.judul.toLowerCase().includes('bakti')) {
+                    accentColor = '#f59e0b';
+                } else if (titleLower.includes('bakti')) {
                     iconClass = 'fa-broom';
-                    accentColor = '#10b981'; // Green
-                } else if (a.judul.toLowerCase().includes('posyandu')) {
+                    accentColor = '#10b981';
+                } else if (titleLower.includes('posyandu')) {
                     iconClass = 'fa-baby';
-                    accentColor = '#ec4899'; // Pink
-                } else if (a.judul.toLowerCase().includes('pengajian')) {
+                    accentColor = '#ec4899';
+                } else if (titleLower.includes('pengajian')) {
                     iconClass = 'fa-book-open';
-                    accentColor = '#8b5cf6'; // Purple
-                } else if (a.judul.toLowerCase().includes('lomba') || a.judul.toLowerCase().includes('hut')) {
+                    accentColor = '#8b5cf6';
+                } else if (titleLower.includes('lomba') || titleLower.includes('hut')) {
                     iconClass = 'fa-flag';
-                    accentColor = '#ef4444'; // Red
+                    accentColor = '#ef4444';
                 }
 
                 grid.innerHTML += `
@@ -206,16 +259,26 @@
                             </div>
                             <div class="card-body d-flex flex-column justify-content-between p-3">
                                 <div>
-                                    <h5 class="fw-bold mb-2 text-primary" style="color: ${accentColor} !important;">
-                                        <i class="fas ${iconClass} me-2" style="color: ${accentColor}"></i>${a.judul}
-                                    </h5>
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="fw-bold m-0" style="color: ${accentColor} !important;">
+                                            <i class="fas ${iconClass} me-2" style="color: ${accentColor}"></i>${a.judul}
+                                        </h5>
+                                        <div class="no-print d-flex gap-1">
+                                            <button class="btn btn-sm btn-light text-primary py-0 px-2" onclick="editAgenda('${a.id}')" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-light text-danger py-0 px-2" onclick="deleteAgenda('${a.id}')" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <p class="small text-muted mb-1"><i class="fas fa-clock me-1"></i> ${a.jam} WIB</p>
                                     <p class="small text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> ${a.lokasi}</p>
-                                    <p class="card-text text-muted mb-3" style="font-size: 0.9rem;">${a.deskripsi}</p>
+                                    <p class="card-text text-muted mb-3" style="font-size: 0.9rem;">${a.deskripsi || ''}</p>
                                 </div>
                                 <div class="border-top pt-2 mt-auto d-flex justify-content-between align-items-center">
                                     <span class="small text-muted">RT 05 Event</span>
-                                    <button class="btn btn-sm btn-link p-0 text-decoration-none no-print" onclick="addToGoogleCalendar('${a.judul}', '${a.tanggal}', '${a.jam}', '${a.lokasi}', '${a.deskripsi}')">
+                                    <button class="btn btn-sm btn-link p-0 text-decoration-none no-print" onclick="addToGoogleCalendar('${a.judul}', '${a.tanggal}', '${a.jam}', '${a.lokasi}', '${a.deskripsi || ''}')">
                                         <i class="far fa-calendar-plus me-1"></i> + Cal
                                     </button>
                                 </div>
@@ -226,16 +289,71 @@
             });
         }
 
-        // Helper to simulate add to Google Calendar
+        // Buka Modal Tambah
+        function openAgendaModal() {
+            document.getElementById('agendaForm').reset();
+            document.getElementById('agendaId').value = '';
+            document.getElementById('agendaModalTitle').innerText = 'Tambah Agenda Baru';
+            agendaModalBS.show();
+        }
+
+        // Buka Modal Edit
+        function editAgenda(id) {
+            const item = rawAgendas.find(a => a.id == id);
+            if (!item) return;
+
+            document.getElementById('agendaId').value = item.id;
+            document.getElementById('agendaJudul').value = item.judul;
+            document.getElementById('agendaTanggal').value = item.tanggal;
+            document.getElementById('agendaJam').value = item.jam;
+            document.getElementById('agendaLokasi').value = item.lokasi;
+            document.getElementById('agendaDeskripsi').value = item.deskripsi || '';
+
+            document.getElementById('agendaModalTitle').innerText = 'Edit Agenda';
+            agendaModalBS.show();
+        }
+
+        // Submit Form (Tambah / Update)
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('agendaId').value;
+            const judul = document.getElementById('agendaJudul').value;
+            const tanggal = document.getElementById('agendaTanggal').value;
+            const jam = document.getElementById('agendaJam').value;
+            const lokasi = document.getElementById('agendaLokasi').value;
+            const deskripsi = document.getElementById('agendaDeskripsi').value;
+
+            if (id) {
+                // Update item
+                const index = rawAgendas.findIndex(a => a.id == id);
+                if (index !== -1) {
+                    rawAgendas[index] = { ...rawAgendas[index], judul, tanggal, jam, lokasi, deskripsi };
+                }
+            } else {
+                // Tambah item baru
+                const newId = Date.now().toString();
+                rawAgendas.push({ id: newId, judul, tanggal, jam, lokasi, deskripsi });
+            }
+
+            applyFilters();
+            agendaModalBS.hide();
+        }
+
+        // Hapus Agenda
+        function deleteAgenda(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus agenda kegiatan ini?')) {
+                rawAgendas = rawAgendas.filter(a => a.id != id);
+                applyFilters();
+            }
+        }
+
+        // Helper Google Calendar
         function addToGoogleCalendar(title, date, time, location, desc) {
             const dateStr = date.replace(/-/g, '');
-            const timeClean = time.replace(/:/g, '') + '00';
-            
-            // Format Google Calendar links correctly
-            const startStr = `${dateStr}T${timeClean}`;
-            const endStr = `${dateStr}T${parseInt(timeClean.substring(0, 2)) + 2}${timeClean.substring(2)}`;
+            const timeClean = time.replace(/[^0-9]/g, '').substring(0, 4) || '0800';
+            const startStr = `${dateStr}T${timeClean}00`;
+            const endStr = `${dateStr}T${parseInt(timeClean.substring(0, 2) || 8) + 2}${timeClean.substring(2)}00`;
             const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(desc)}&location=${encodeURIComponent(location)}`;
-            
             window.open(url, '_blank');
         }
     </script>
