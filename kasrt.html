@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kas RT - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar Desktop -->
+    <div class="sidebar d-flex flex-column p-3 text-white bg-dark">
+        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-home fa-lg me-2 text-primary"></i>
+            <span class="fs-5 fw-bold">RT 05 Cempaka</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="warga.html" class="nav-link"><i class="fas fa-users"></i> Data Warga</a></li>
+            <li><a href="iuran.html" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+            <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
+            <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+            <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+            <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-light btn-sm w-100" id="darkModeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <!-- Offcanvas Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title fw-bold"><i class="fas fa-home text-primary me-2"></i>RT 05 Cempaka</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav nav-pills flex-column p-3">
+                <li><a href="index.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="warga.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-users"></i> Data Warga</a></li>
+                <li><a href="iuran.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+                <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
+                <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+                <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+                <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Navbar Top -->
+        <nav class="top-navbar d-flex align-items-center justify-content-between navbar-light">
+            <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h4 class="m-0 fw-bold d-none d-sm-block">Keuangan Kas Rukun Tetangga</h4>
+            <h5 class="m-0 fw-bold d-sm-none">Kas RT</h5>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> RT 05 RW 02</span>
+            </div>
+        </nav>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Header Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                    <h2 class="fw-bold mb-1">Manajemen Kas RT</h2>
+                    <p class="text-muted mb-0">Laporan transparan kas masuk, keluar, dan visualisasi grafik keuangan.</p>
+                </div>
+                <div class="col-12 col-md-6 text-md-end no-print">
+                    <button class="btn btn-outline-success" id="exportBtn">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </button>
+                    <button class="btn btn-outline-primary ms-2" id="syncKasBtn" title="Sinkronkan kas dari data iuran">
+                        <i class="fas fa-sync-alt me-1"></i> Sinkronkan Kas
+                    </button>
+                    <button class="btn btn-outline-danger ms-2" onclick="window.print()">
+                        <i class="fas fa-print me-1"></i> Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Aggregate Financial Metrics -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-4">
+                    <div class="card p-3 border-start border-success border-4 h-100">
+                        <h6 class="text-muted mb-1 text-uppercase fw-bold" style="font-size: 0.75rem;">Total Pemasukan</h6>
+                        <h3 class="fw-bold mb-0 text-success" id="totalPemasukan">Rp 0</h3>
+                        <small class="text-muted">Total dari iuran, sumbangan, & donasi</small>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card p-3 border-start border-danger border-4 h-100">
+                        <h6 class="text-muted mb-1 text-uppercase fw-bold" style="font-size: 0.75rem;">Total Pengeluaran</h6>
+                        <h3 class="fw-bold mb-0 text-danger" id="totalPengeluaran">Rp 0</h3>
+                        <small class="text-muted">Untuk kebersihan, keamanan, & kegiatan</small>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card p-3 border-start border-primary border-4 h-100">
+                        <h6 class="text-muted mb-1 text-uppercase fw-bold" style="font-size: 0.75rem;">Saldo Kas Saat Ini</h6>
+                        <h3 class="fw-bold mb-0 text-primary" id="totalSaldo">Rp 0</h3>
+                        <small class="text-muted">Sisa saldo tersimpan dalam rekening kas</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="row g-4 mb-4 no-print">
+                <!-- Bar Chart: Flow -->
+                <div class="col-12 col-lg-6">
+                    <div class="card p-3 h-100">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-chart-bar text-success me-2"></i>Pemasukan vs Pengeluaran Bulanan</h5>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="flowChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Line Chart: Trend -->
+                <div class="col-12 col-lg-6">
+                    <div class="card p-3 h-100">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-chart-line text-primary me-2"></i>Saldo Kas RT Bulanan</h5>
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ledger Tables -->
+            <div class="card">
+                <div class="card-header bg-transparent border-bottom-0 pb-0 pt-3">
+                    <ul class="nav nav-tabs card-header-tabs" id="kasTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active fw-semibold" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-pane" type="button" role="tab">Semua Transaksi</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-semibold text-success" id="masuk-tab" data-bs-toggle="tab" data-bs-target="#masuk-pane" type="button" role="tab">Pemasukan Only</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-semibold text-danger" id="keluar-tab" data-bs-toggle="tab" data-bs-target="#keluar-pane" type="button" role="tab">Pengeluaran Only</button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card-body p-0">
+                    <div class="tab-content" id="kasTabsContent">
+                        <!-- All Transactions Pane -->
+                        <div class="tab-pane fade show active" id="all-pane" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 70px;">No</th>
+                                            <th>Tanggal</th>
+                                            <th>Keterangan</th>
+                                            <th>Kategori</th>
+                                            <th class="text-end">Jumlah</th>
+                                            <th class="text-center" style="width: 150px;">Jenis</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="allLedgerBody">
+                                        <!-- JS Populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Pemasukan Pane -->
+                        <div class="tab-pane fade" id="masuk-pane" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 70px;">No</th>
+                                            <th>Tanggal</th>
+                                            <th>Keterangan</th>
+                                            <th>Kategori</th>
+                                            <th class="text-end">Nominal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="masukLedgerBody">
+                                        <!-- JS Populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Pengeluaran Pane -->
+                        <div class="tab-pane fade" id="keluar-pane" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width: 70px;">No</th>
+                                            <th>Tanggal</th>
+                                            <th>Keterangan</th>
+                                            <th>Kategori</th>
+                                            <th class="text-end">Nominal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="keluarLedgerBody">
+                                        <!-- JS Populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/chart.js"></script>
+    <script>
+        let rawKas = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            rawKas = await loadData('kas');
+            
+            // Sort Descending by Date (Newest first) for Table rendering
+            rawKas.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+            
+            calculateLedgerMetrics();
+            renderLedgers();
+
+            // Export CSV
+            document.getElementById('exportBtn').addEventListener('click', () => {
+                const headers = ['Tanggal', 'Kategori', 'Jenis', 'Keterangan', 'Nominal'];
+                const rows = rawKas.map(k => [k.tanggal, k.kategori, k.jenis, k.keterangan, k.nominal]);
+                exportToCSV('buku_kas_rt05.csv', headers, rows);
+            });
+
+            // Manual sync button: merge paid iuran into kas
+            const syncBtn = document.getElementById('syncKasBtn');
+            if (syncBtn) {
+                syncBtn.addEventListener('click', async () => {
+                    syncBtn.disabled = true;
+                    syncBtn.innerText = 'Menyinkronkan...';
+                    await syncKasFromIuran();
+                    rawKas = await loadData('kas');
+                    rawKas.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                    calculateLedgerMetrics();
+                    renderLedgers();
+                    syncBtn.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Sinkronkan Kas';
+                    syncBtn.disabled = false;
+                });
+            }
+
+            // Listen for storage changes from other windows/tabs and refresh ledger
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'rt_kas') {
+                    console.log('kasrt: storage event for rt_kas', e);
+                    try {
+                        rawKas = JSON.parse(e.newValue || '[]');
+                        rawKas.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                        calculateLedgerMetrics();
+                        renderLedgers();
+                    } catch (err) {
+                        console.warn('Failed to parse rt_kas from storage event', err);
+                    }
+                }
+            });
+
+            // Listen via BroadcastChannel for immediate cross-tab updates
+            try {
+                if (typeof BroadcastChannel !== 'undefined') {
+                    const bc = new BroadcastChannel('rt_kas_channel');
+                    bc.onmessage = async (ev) => {
+                        if (ev && ev.data && ev.data.type === 'kasUpdated') {
+                            try {
+                                rawKas = await loadData('kas');
+                                rawKas.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                                calculateLedgerMetrics();
+                                renderLedgers();
+                            } catch (err) {
+                                console.warn('Failed to refresh kas after BroadcastChannel message', err);
+                            }
+                        }
+                    };
+                }
+            } catch (e) {
+                // ignore if BroadcastChannel not available
+            }
+
+            // Polling fallback: some environments may not emit storage events reliably
+            let _lastKasJson = localStorage.getItem('rt_kas') || '';
+            setInterval(() => {
+                try {
+                    const current = localStorage.getItem('rt_kas') || '';
+                    if (current !== _lastKasJson) {
+                        console.log('kasrt: poll detected rt_kas change');
+                        _lastKasJson = current;
+                        rawKas = JSON.parse(current || '[]');
+                        rawKas.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                        calculateLedgerMetrics();
+                        renderLedgers();
+                    }
+                } catch (err) {
+                    console.warn('Failed to poll rt_kas', err);
+                }
+            }, 2000);
+            // BroadcastChannel listener logs
+            try {
+                if (typeof BroadcastChannel !== 'undefined') {
+                    const bc = new BroadcastChannel('rt_kas_channel');
+                    bc.onmessage = async (ev) => {
+                        console.log('kasrt: BroadcastChannel message', ev && ev.data);
+                        if (ev && ev.data && ev.data.type === 'kasUpdated') {
+                            try {
+                                rawKas = await loadData('kas');
+                                rawKas.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                                calculateLedgerMetrics();
+                                renderLedgers();
+                            } catch (err) {
+                                console.warn('Failed to refresh kas after BroadcastChannel message', err);
+                            }
+                        }
+                    };
+                }
+            } catch (e) {
+                // ignore if BroadcastChannel not available
+            }
+        });
+
+        function calculateLedgerMetrics() {
+            let masuk = 0;
+            let keluar = 0;
+
+            rawKas.forEach(item => {
+                if (item.jenis === 'Pemasukan') {
+                    masuk += item.nominal;
+                } else {
+                    keluar += item.nominal;
+                }
+            });
+
+            document.getElementById('totalPemasukan').innerText = formatRupiah(masuk);
+            document.getElementById('totalPengeluaran').innerText = formatRupiah(keluar);
+            document.getElementById('totalSaldo').innerText = formatRupiah(masuk - keluar);
+        }
+
+        function renderLedgers() {
+            const allBody = document.getElementById('allLedgerBody');
+            const masukBody = document.getElementById('masukLedgerBody');
+            const keluarBody = document.getElementById('keluarLedgerBody');
+
+            allBody.innerHTML = '';
+            masukBody.innerHTML = '';
+            keluarBody.innerHTML = '';
+
+            let idxAll = 1;
+            let idxIn = 1;
+            let idxOut = 1;
+
+            rawKas.forEach(k => {
+                const date = formatDateString(k.tanggal);
+                const isPemasukan = k.jenis === 'Pemasukan';
+                const badgeClass = isPemasukan ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger';
+                
+                // Add to All table
+                allBody.innerHTML += `
+                    <tr>
+                        <td class="text-center font-monospace">${idxAll++}</td>
+                        <td class="text-nowrap">${date}</td>
+                        <td class="fw-bold">${k.keterangan}</td>
+                        <td>${k.kategori}</td>
+                        <td class="text-end fw-semibold text-nowrap ${isPemasukan ? 'text-success' : 'text-danger'}">
+                            ${isPemasukan ? '+' : '-'} ${formatRupiah(k.nominal)}
+                        </td>
+                        <td class="text-center">
+                            <span class="badge ${badgeClass} rounded-pill px-3 py-2">${k.jenis}</span>
+                        </td>
+                    </tr>
+                `;
+
+                if (isPemasukan) {
+                    masukBody.innerHTML += `
+                        <tr>
+                            <td class="text-center font-monospace">${idxIn++}</td>
+                            <td class="text-nowrap">${date}</td>
+                            <td class="fw-bold">${k.keterangan}</td>
+                            <td>${k.kategori}</td>
+                            <td class="text-end fw-semibold text-success text-nowrap">${formatRupiah(k.nominal)}</td>
+                        </tr>
+                    `;
+                } else {
+                    keluarBody.innerHTML += `
+                        <tr>
+                            <td class="text-center font-monospace">${idxOut++}</td>
+                            <td class="text-nowrap">${date}</td>
+                            <td class="fw-bold">${k.keterangan}</td>
+                            <td>${k.kategori}</td>
+                            <td class="text-end fw-semibold text-danger text-nowrap">${formatRupiah(k.nominal)}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (rawKas.length === 0) {
+                allBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Buku kas kosong.</td></tr>`;
+            }
+        }
+
+        async function syncKasFromIuran() {
+            try {
+                const iuran = await loadData('iuran');
+                let kas = await loadData('kas');
+                let added = 0;
+                // ensure iuran items have ids
+                iuran.forEach(it => { if (!it._id) it._id = 'iuran_' + Date.now() + '_' + Math.floor(Math.random()*100000); });
+
+                iuran.forEach(item => {
+                    if (item.status === 'Lunas') {
+                        const exists = kas.some(k => k.ref_iuran && k.ref_iuran === item._id);
+                        if (exists) return;
+                        // fallback: check by month/name/nominal
+                        const namaKK = item.nama || '';
+                        const match = kas.some(k => k.jenis === 'Pemasukan' && k.kategori === 'Iuran Bulanan' && k.nominal === item.nominal && k.keterangan && k.keterangan.includes(item.bulan) && (namaKK ? k.keterangan.includes(namaKK) : true));
+                        if (match) return;
+
+                        const tanggal = new Date().toISOString().split('T')[0];
+                        const periode = `${item.bulan} ${item.tahun || '2026'}`;
+                        const entry = {
+                            tanggal: tanggal,
+                            kategori: 'Iuran Bulanan',
+                            jenis: 'Pemasukan',
+                            keterangan: `Pembayaran Iuran - ${(namaKK||item.nama||'Warga')} (${periode})`,
+                            nominal: item.nominal,
+                            ref_iuran: item._id
+                        };
+                        kas.push(entry);
+                        added++;
+                    }
+                });
+
+                if (added > 0) {
+                    saveToStorage('kas', kas);
+                    console.log(`syncKasFromIuran: added ${added} entries`);
+                } else {
+                    console.log('syncKasFromIuran: no entries to add');
+                }
+            } catch (e) {
+                console.warn('syncKasFromIuran failed', e);
+            }
+        }
+    </script>
+</body>
+</html>

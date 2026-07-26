@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Dokumen & Layanan Mandiri - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <style>
+        /* Styling for the simulated preview letter */
+        .preview-letter-sheet {
+            background-color: #ffffff;
+            color: #000000 !important;
+            padding: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        body.dark-mode .preview-letter-sheet {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        .kop-surat {
+            border-bottom: 3px double #000000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Desktop -->
+    <div class="sidebar d-flex flex-column p-3 text-white bg-dark">
+        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-home fa-lg me-2 text-primary"></i>
+            <span class="fs-5 fw-bold">RT 05 Cempaka</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="warga.html" class="nav-link"><i class="fas fa-users"></i> Data Warga</a></li>
+            <li><a href="iuran.html" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+            <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
+            <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+            <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+            <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-light btn-sm w-100" id="darkModeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <!-- Offcanvas Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title fw-bold"><i class="fas fa-home text-primary me-2"></i>RT 05 Cempaka</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav nav-pills flex-column p-3">
+                <li><a href="index.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="warga.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-users"></i> Data Warga</a></li>
+                <li><a href="iuran.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+                <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
+                <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+                <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+                <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Navbar Top -->
+        <nav class="top-navbar d-flex align-items-center justify-content-between navbar-light">
+            <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h4 class="m-0 fw-bold d-none d-sm-block">Unduh Formulir & Dokumen Mandiri</h4>
+            <h5 class="m-0 fw-bold d-sm-none">Dokumen RT</h5>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> RT 05 RW 02</span>
+            </div>
+        </nav>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Header Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-8">
+                    <h2 class="fw-bold mb-1">Pusat Layanan Surat Mandiri</h2>
+                    <p class="text-muted mb-0">Cari formulir pengantar, keterangan domisili, atau izin keramaian untuk pengurusan administrasi.</p>
+                </div>
+            </div>
+
+            <!-- Documents Grid -->
+            <div class="row g-4" id="docsGrid">
+                <!-- Javascript populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content card">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="previewModalLabel">Preview Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <!-- Letter simulator sheet -->
+                    <div class="preview-letter-sheet" id="letterSheet">
+                        <!-- JS populated -->
+                    </div>
+                </div>
+                <div class="modal-footer border-top bg-light-subtle">
+                    <button type="button" class="btn btn-outline-danger" id="modalPrintBtn">
+                        <i class="fas fa-print me-1"></i> Cetak / Save PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        const documentList = [
+            {
+                code: "F-01",
+                name: "Form Keterangan Domisili",
+                desc: "Surat keterangan yang menerangkan bahwa pemohon adalah benar menetap dan tinggal di RT 05.",
+                content: {
+                    type: "DOMISILI",
+                    body: "Yang bertanda tangan di bawah ini Ketua RT 05 RW 02 Kelurahan Cempaka, menerangkan bahwa:\n\nNama        : [NAMA WARGA]\nNIK         : [NIK WARGA]\nAlamat      : [ALAMAT WARGA]\n\nAdalah benar warga kami yang berdomisili dan tinggal menetap pada alamat tersebut di atas. Demikian surat keterangan domisili ini dibuat untuk dipergunakan sebagaimana mestinya."
+                }
+            },
+            {
+                code: "F-02",
+                name: "Form Pengantar RT",
+                desc: "Surat pengantar resmi sebagai syarat utama pembuatan KTP, KK, Akta Kelahiran, atau berkas kelurahan.",
+                content: {
+                    type: "PENGANTAR",
+                    body: "Yang bertanda tangan di bawah ini Ketua RT 05 RW 02 Kelurahan Cempaka, menerangkan bahwa warga dengan identitas tersebut di bawah ini sedang mengurus:\n\nKeperluan   : Pembuatan Kartu Tanda Penduduk (KTP) / Kartu Keluarga (KK) Baru\nNama        : [NAMA WARGA]\nNIK         : [NIK WARGA]\nAlamat      : [ALAMAT WARGA]\n\nDemikian surat pengantar ini diberikan untuk dipergunakan sebagai kelengkapan berkas di tingkat Kelurahan."
+                }
+            },
+            {
+                code: "F-03",
+                name: "Form Keterangan Usaha",
+                desc: "Formulir keterangan untuk melengkapi pengajuan kredit bank (KUR) atau izin usaha mikro (UMKM).",
+                content: {
+                    type: "USAHA",
+                    body: "Yang bertanda tangan di bawah ini Ketua RT 05 RW 02 Kelurahan Cempaka, menerangkan bahwa:\n\nNama        : [NAMA WARGA]\nUsaha       : Warung Sembako & Jasa Kelontong\nAlamat      : [ALAMAT WARGA]\n\nAdalah benar memiliki usaha mikro di lingkungan RT 05 Kelurahan Cempaka yang aktif berjalan hingga saat ini. Surat keterangan ini dibuat untuk pengajuan administratif permodalan usaha."
+                }
+            },
+            {
+                code: "F-04",
+                name: "Form Pindah Datang Warga",
+                desc: "Surat pelaporan bagi warga baru yang baru pindah dan menetap di lingkungan RT 05 RW 02.",
+                content: {
+                    type: "PINDAH DATANG",
+                    body: "Yang bertanda tangan di bawah ini Ketua RT 05 RW 02 Kelurahan Cempaka, mengonfirmasi pelaporan warga pindah datang:\n\nNama        : [NAMA WARGA]\nNIK         : [NIK WARGA]\nAlamat Asal : Jalan Melati No. 45, Bandung\nAlamat Baru : [ALAMAT WARGA]\nJumlah Agt  : 4 Orang\n\nTelah terdaftar secara resmi sebagai warga pindah datang di RT 05 RW 02 Kelurahan Cempaka sejak tanggal surat ini dikeluarkan."
+                }
+            },
+            {
+                code: "F-05",
+                name: "Form Izin Keramaian Warga",
+                desc: "Surat izin persetujuan warga sekitar untuk menyelenggarakan hajatan, pernikahan, atau pesta rakyat.",
+                content: {
+                    type: "KERAMAIAN",
+                    body: "Yang bertanda tangan di bawah ini Ketua RT 05 RW 02 Kelurahan Cempaka, menyatakan tidak keberatan atas rencana kegiatan keramaian:\n\nNama Acara  : Resepsi Pernikahan & Panggung Hiburan\nTanggal     : 16 Agustus 2026\nLokasi      : Area Lapangan RT 05\nPemohon     : [NAMA WARGA]\n\nDengan catatan pihak penyelenggara wajib menjaga keamanan, ketertiban umum, dan kebersihan lingkungan selama acara berlangsung."
+                }
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDocs();
+        });
+
+        function renderDocs() {
+            const grid = document.getElementById('docsGrid');
+            grid.innerHTML = '';
+
+            documentList.forEach((d, idx) => {
+                grid.innerHTML += `
+                    <div class="col-12 col-md-6">
+                        <div class="card h-100 p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="badge bg-primary px-3 py-2 rounded">${d.code}</span>
+                                <span class="text-muted small"><i class="fas fa-file-word text-primary me-1"></i> Format MS Word / TXT</span>
+                            </div>
+                            <h5 class="fw-bold text-dark text-opacity-80 mb-2">${d.name}</h5>
+                            <p class="text-muted small flex-grow-1" style="line-height: 1.6;">${d.desc}</p>
+                            <div class="border-top pt-3 mt-3 d-flex gap-2">
+                                <button class="btn btn-primary btn-sm px-3" onclick="downloadDoc(${idx})">
+                                    <i class="fas fa-download me-1"></i> Download
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm px-3" onclick="previewDoc(${idx})">
+                                    <i class="fas fa-eye me-1"></i> Preview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function buildSheetHTML(doc) {
+            const s = getSettings();
+            return `
+                <div class="text-center kop-surat">
+                    <h5 class="fw-bold mb-0">RUKUN TETANGGA ${s.rt} RW ${s.rw}</h5>
+                    <h6 class="fw-bold mb-0">KELURAHAN ${s.kelurahan.toUpperCase()} - KECAMATAN ${s.kecamatan.toUpperCase()}</h6>
+                    <p class="small mb-1 text-muted" style="font-size: 0.75rem;">Sekretariat: ${s.sekretariat}, Kelurahan ${s.kelurahan}, ${s.kota}. Kode Pos: ${s.kodepos}</p>
+                </div>
+                <div class="text-center mb-4">
+                    <h6 class="fw-bold text-decoration-underline mb-0">SURAT KETERANGAN ${doc.content.type}</h6>
+                    <p class="small text-muted mb-0">Nomor: ${Math.floor(Math.random() * 200) + 50}/RT${s.rt}/RW${s.rw}/VII/2026</p>
+                </div>
+                <div class="mb-4">
+                    <p style="white-space: pre-line; line-height: 1.8;">
+                        ${doc.content.body.replace('[NAMA WARGA]', 'Budi Santoso').replace('[NIK WARGA]', '3275010908870002').replace('[ALAMAT WARGA]', 'Blok A1 No. 10')}
+                    </p>
+                </div>
+                <div class="row pt-4 text-center">
+                    <div class="col-6">
+                        <p class="mb-5">Pemohon,</p>
+                        <p class="fw-bold text-decoration-underline mb-0">( Budi Santoso )</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-5">Ketua RT ${s.rt} ${s.kelurahan},</p>
+                        <p class="fw-bold text-decoration-underline mb-0">( Hendra Wijaya )</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function previewDoc(idx) {
+            const doc = documentList[idx];
+            document.getElementById('previewModalLabel').innerText = `Preview - ${doc.name}`;
+            const sheet = document.getElementById('letterSheet');
+            sheet.innerHTML = buildSheetHTML(doc);
+
+            // Set printer action
+            document.getElementById('modalPrintBtn').onclick = () => {
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>Cetak ${doc.name}</title>
+                        <style>
+                            body { font-family: 'Courier New', Courier, monospace; padding: 40px; line-height: 1.6; }
+                            .text-center { text-align: center; }
+                            .fw-bold { font-weight: bold; }
+                            .kop-surat { border-bottom: 3px double #000; margin-bottom: 20px; padding-bottom: 10px; }
+                            .row { display: flex; justify-content: space-between; margin-top: 40px; }
+                            .col-6 { width: 45%; text-align: center; }
+                            .mb-5 { margin-bottom: 60px; }
+                            .text-decoration-underline { text-decoration: underline; }
+                        </style>
+                    </head>
+                    <body onload="window.print(); window.close();">
+                        ${sheet.innerHTML}
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            };
+
+            const modal = new bootstrap.Modal(document.getElementById('previewModal'));
+            modal.show();
+        }
+
+        function downloadDoc(idx) {
+            const doc = documentList[idx];
+            const s = getSettings();
+            // Format layout text
+            const docText = `
+========================================================================
+                      RUKUN TETANGGA ${s.rt} RW ${s.rw}
+             KELURAHAN ${s.kelurahan.toUpperCase()} - KECAMATAN ${s.kecamatan.toUpperCase()}
+========================================================================
+
+                 SURAT KETERANGAN ${doc.content.type}
+                 Nomor: ${Math.floor(Math.random() * 200) + 50}/RT${s.rt}/RW${s.rw}/VII/2026
+
+${doc.content.body.replace('[NAMA WARGA]', 'Budi Santoso').replace('[NIK WARGA]', '3275010908870002').replace('[ALAMAT WARGA]', 'Blok A1 No. 10')}
+
+${s.kota}, 26 Juli 2026
+
+Pemohon,                                   Ketua RT ${s.rt} ${s.kelurahan},
+
+
+
+( Budi Santoso )                           ( Hendra Wijaya )
+            `;
+
+            const blob = new Blob([docText], { type: 'text/plain;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `${doc.name.toLowerCase().replace(/ /g, '_')}.txt`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

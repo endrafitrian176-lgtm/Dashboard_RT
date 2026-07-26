@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Akses RT 010 PL3 - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <style>
+        .login-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .portal-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .role-option {
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        .role-option:hover {
+            transform: translateY(-4px);
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body class="login-bg">
+
+    <div class="card portal-card shadow-lg p-4 p-md-5">
+        <div class="text-center mb-4">
+            <i class="fas fa-home fa-3x text-primary mb-3"></i>
+            <h3 class="fw-bold mb-1">RT 05 Cempaka</h3>
+            <p class="text-white-50 small mb-0">Sistem Informasi & Manajemen Layanan Warga Mandiri</p>
+        </div>
+
+        <h5 class="fw-semibold mb-3 text-center">Pilih Akses Anda</h5>
+
+        <!-- Role Select Options -->
+        <div class="d-grid gap-3 mb-4">
+            <!-- Option 1: Warga -->
+            <div class="role-option p-3 d-flex align-items-center gap-3" id="selectWarga">
+                <div class="bg-primary text-white p-3 rounded-circle">
+                    <i class="fas fa-users fa-lg"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0">Masuk sebagai Warga</h5>
+                    <p class="small text-white-50 mb-0">Akses info kas, iuran, agenda, & unduh dokumen.</p>
+                </div>
+            </div>
+
+            <!-- Option 2: Pengurus -->
+            <div class="role-option p-3 d-flex align-items-center gap-3" id="selectPengurus">
+                <div class="bg-warning text-white p-3 rounded-circle">
+                    <i class="fas fa-user-shield fa-lg"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0">Akses Pengurus RT</h5>
+                    <p class="small text-white-50 mb-0">Edit data warga, verifikasi iuran, dan kelola keuangan.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inline Form for Pengurus Passcode -->
+        <div id="pinBox" style="display: none;" class="mt-2 border-top border-secondary pt-3">
+            <h6 class="fw-semibold text-warning mb-2"><i class="fas fa-lock me-1"></i>Masukkan PIN Pengurus</h6>
+            <form id="pinForm">
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control bg-dark border-secondary text-white" id="pinInput" placeholder="Masukkan PIN (Default: 12345)" required>
+                    <button class="btn btn-warning" type="submit">Konfirmasi</button>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-link text-white-50 btn-sm text-decoration-none" id="cancelPin">Batal</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-center text-white-50 small mt-3">
+            Bekasi Barat, Indonesia.
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already logged in, redirect
+            if (localStorage.getItem('rt_user_role')) {
+                window.location.href = 'index.html';
+            }
+
+            const selectWarga = document.getElementById('selectWarga');
+            const selectPengurus = document.getElementById('selectPengurus');
+            const pinBox = document.getElementById('pinBox');
+            const cancelPin = document.getElementById('cancelPin');
+            const pinForm = document.getElementById('pinForm');
+            const pinInput = document.getElementById('pinInput');
+
+            selectWarga.addEventListener('click', () => {
+                localStorage.setItem('rt_user_role', 'warga');
+                window.location.href = 'index.html';
+            });
+
+            selectPengurus.addEventListener('click', () => {
+                pinBox.style.display = 'block';
+                pinInput.focus();
+            });
+
+            cancelPin.addEventListener('click', () => {
+                pinBox.style.display = 'none';
+                pinInput.value = '';
+            });
+
+            pinForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pin = pinInput.value.trim();
+                
+                // Dynamic Pin Verification
+                const settings = JSON.parse(localStorage.getItem('rt_settings')) || { pin: '12345' };
+                if (pin === settings.pin) {
+                    localStorage.setItem('rt_user_role', 'pengurus');
+                    window.location.href = 'index.html';
+                } else {
+                    alert('PIN yang Anda masukkan salah!');
+                    pinInput.value = '';
+                    pinInput.focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

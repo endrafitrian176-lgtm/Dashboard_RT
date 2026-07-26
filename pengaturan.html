@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Universal RT - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar Desktop -->
+    <div class="sidebar d-flex flex-column p-3 text-white bg-dark">
+        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-home fa-lg me-2 text-primary"></i>
+            <span class="fs-5 fw-bold">RT 05 Cempaka</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="warga.html" class="nav-link"><i class="fas fa-users"></i> Data Warga</a></li>
+            <li><a href="iuran.html" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+            <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
+            <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+            <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+            <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-light btn-sm w-100" id="darkModeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <!-- Offcanvas Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title fw-bold"><i class="fas fa-home text-primary me-2"></i>RT 05 Cempaka</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav nav-pills flex-column p-3">
+                <li><a href="index.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="warga.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-users"></i> Data Warga</a></li>
+                <li><a href="iuran.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+                <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
+                <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+                <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+                <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Navbar Top -->
+        <nav class="top-navbar d-flex align-items-center justify-content-between navbar-light">
+            <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h4 class="m-0 fw-bold d-none d-sm-block">Pengaturan Panel RT</h4>
+            <h5 class="m-0 fw-bold d-sm-none">Pengaturan</h5>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> RT 05 RW 02</span>
+            </div>
+        </nav>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Header Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col">
+                    <h2 class="fw-bold mb-1">Pengaturan & Konfigurasi Universal</h2>
+                    <p class="text-muted mb-0">Ubah identitas kepengurusan RT, sesuaikan password/PIN admin, dan kelola database (ekspor, impor, atau reset data).</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Left Column: Settings Forms -->
+                <div class="col-12 col-lg-8">
+                    <!-- Form 1: Identitas RT -->
+                    <div class="card p-4 mb-4 shadow-sm">
+                        <h5 class="fw-bold mb-3 border-bottom pb-2 text-primary"><i class="fas fa-id-card me-2"></i>Identitas Rukun Tetangga (RT)</h5>
+                        <form id="identityForm">
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <label for="inputRT" class="form-label small fw-bold">Nomor RT</label>
+                                    <input type="text" class="form-control" id="inputRT" required placeholder="05">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <label for="inputRW" class="form-label small fw-bold">Nomor RW</label>
+                                    <input type="text" class="form-control" id="inputRW" required placeholder="02">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="inputSlogan" class="form-label small fw-bold">Nama Slogan/Judul (Sidebar)</label>
+                                    <input type="text" class="form-control" id="inputSlogan" required placeholder="RT 05 Cempaka">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="inputKel" class="form-label small fw-bold">Kelurahan</label>
+                                    <input type="text" class="form-control" id="inputKel" required placeholder="Cempaka">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="inputKec" class="form-label small fw-bold">Kecamatan</label>
+                                    <input type="text" class="form-control" id="inputKec" required placeholder="Bekasi Barat">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="inputKota" class="form-label small fw-bold">Kota/Kabupaten</label>
+                                    <input type="text" class="form-control" id="inputKota" required placeholder="Bekasi">
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <label for="inputSekretariat" class="form-label small fw-bold">Alamat Sekretariat</label>
+                                    <input type="text" class="form-control" id="inputSekretariat" required placeholder="Blok A5 No. 10">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="inputKodePos" class="form-label small fw-bold">Kode Pos</label>
+                                    <input type="text" class="form-control" id="inputKodePos" required placeholder="17135">
+                                </div>
+                            </div>
+                            <div class="mt-4 text-end">
+                                <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-1"></i> Simpan Identitas</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Form 2: Akses Keamanan -->
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="fw-bold mb-3 border-bottom pb-2 text-warning"><i class="fas fa-lock me-2"></i>PIN Keamanan Pengurus</h5>
+                        <form id="securityForm">
+                            <div class="row g-3">
+                                <div class="col-12 col-md-6">
+                                    <label for="inputPin" class="form-label small fw-bold">PIN Baru (Angka/Karakter)</label>
+                                    <input type="password" class="form-control" id="inputPin" required placeholder="PIN baru">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="inputConfirmPin" class="form-label small fw-bold">Konfirmasi PIN Baru</label>
+                                    <input type="password" class="form-control" id="inputConfirmPin" required placeholder="Ulangi PIN baru">
+                                </div>
+                            </div>
+                            <div class="mt-4 text-end">
+                                <button type="submit" class="btn btn-warning px-4"><i class="fas fa-key me-1"></i> Perbarui PIN Akses</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Column: Database Tools -->
+                <div class="col-12 col-lg-4">
+                    <div class="card p-4 shadow-sm h-100">
+                        <h5 class="fw-bold mb-3 border-bottom pb-2 text-danger"><i class="fas fa-database me-2"></i>Manajemen Database</h5>
+                        
+                        <!-- Tool 1: Ekspor -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-1"><i class="fas fa-file-download me-1 text-success"></i>Backup Ekspor</h6>
+                            <p class="small text-muted mb-2">Simpan salinan seluruh warga, iuran, kas, & agenda dalam file JSON lokal.</p>
+                            <button class="btn btn-sm btn-outline-success w-100" id="btnExportDb">
+                                <i class="fas fa-download me-1"></i> Ekspor Database (.json)
+                            </button>
+                        </div>
+
+                        <!-- Tool 2: Impor -->
+                        <div class="mb-4 border-top pt-3">
+                            <h6 class="fw-bold mb-1"><i class="fas fa-file-upload me-1 text-primary"></i>Restore Impor</h6>
+                            <p class="small text-muted mb-2">Pilih file backup database RT (.json) untuk memulihkan seluruh data yang disimpan.</p>
+                            <div class="input-group input-group-sm mb-2">
+                                <input type="file" class="form-control" id="importFile" accept=".json">
+                            </div>
+                            <button class="btn btn-sm btn-primary w-100" id="btnImportDb">
+                                <i class="fas fa-upload me-1"></i> Unggah & Restore
+                            </button>
+                        </div>
+
+                        <!-- Tool 3: Bersihkan / Clean Slate -->
+                        <div class="mb-4 border-top pt-3">
+                            <h6 class="fw-bold mb-1"><i class="fas fa-trash-alt me-1 text-danger"></i>Mulai Baru (Clean Slate)</h6>
+                            <p class="small text-muted mb-2">Kosongkan seluruh database (warga, kas, iuran, agenda) untuk mulai mengisi dari nol.</p>
+                            <button class="btn btn-sm btn-outline-danger w-100" id="btnClearDb">
+                                <i class="fas fa-exclamation-triangle me-1"></i> Kosongkan Seluruh Data
+                            </button>
+                        </div>
+
+                        <!-- Tool 4: Generate Demo -->
+                        <div class="border-top pt-3">
+                            <h6 class="fw-bold mb-1"><i class="fas fa-redo me-1 text-secondary"></i>Generate Demo Dummy</h6>
+                            <p class="small text-muted mb-2">Wipe dan generate otomatis data simulasi awal (95 KK, 350 warga, 30 kas, dll).</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100" id="btnResetDemo">
+                                <i class="fas fa-magic me-1"></i> Muat Ulang Data Simulasi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        // Access guard: double check that warga cannot access this page
+        if (!isPengurus()) {
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const settings = getSettings();
+            
+            // Populate Identity form values
+            document.getElementById('inputRT').value = settings.rt;
+            document.getElementById('inputRW').value = settings.rw;
+            document.getElementById('inputSlogan').value = settings.slogan;
+            document.getElementById('inputKel').value = settings.kelurahan;
+            document.getElementById('inputKec').value = settings.kecamatan;
+            document.getElementById('inputKota').value = settings.kota;
+            document.getElementById('inputSekretariat').value = settings.sekretariat;
+            document.getElementById('inputKodePos').value = settings.kodepos;
+
+            // Submit Identity
+            document.getElementById('identityForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pin = getSettings().pin; // keep existing pin
+                const newSettings = {
+                    rt: document.getElementById('inputRT').value.trim(),
+                    rw: document.getElementById('inputRW').value.trim(),
+                    slogan: document.getElementById('inputSlogan').value.trim(),
+                    kelurahan: document.getElementById('inputKel').value.trim(),
+                    kecamatan: document.getElementById('inputKec').value.trim(),
+                    kota: document.getElementById('inputKota').value.trim(),
+                    sekretariat: document.getElementById('inputSekretariat').value.trim(),
+                    kodepos: document.getElementById('inputKodePos').value.trim(),
+                    pin: pin
+                };
+                
+                saveSettings(newSettings);
+                applyBranding();
+                alert('Konfigurasi Identitas RT berhasil disimpan!');
+                window.location.reload();
+            });
+
+            // Submit PIN security
+            document.getElementById('securityForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const pin = document.getElementById('inputPin').value;
+                const confirmPin = document.getElementById('inputConfirmPin').value;
+
+                if (pin !== confirmPin) {
+                    alert('Konfirmasi PIN baru tidak sesuai!');
+                    return;
+                }
+
+                const currentSettings = getSettings();
+                currentSettings.pin = pin;
+                saveSettings(currentSettings);
+                
+                alert('PIN Keamanan Pengurus berhasil diperbarui!');
+                document.getElementById('securityForm').reset();
+            });
+
+            // Trigger Export
+            document.getElementById('btnExportDb').addEventListener('click', () => {
+                exportDatabase();
+            });
+
+            // Trigger Import
+            document.getElementById('btnImportDb').addEventListener('click', () => {
+                const fileInput = document.getElementById('importFile');
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    alert('Silakan pilih file database (.json) terlebih dahulu!');
+                    return;
+                }
+
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const success = importDatabase(e.target.result);
+                    if (success) {
+                        alert('Database berhasil dipulihkan!');
+                        window.location.href = 'index.html';
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            // Trigger Clear Database (Clean Slate)
+            document.getElementById('btnClearDb').addEventListener('click', () => {
+                if (confirm('APAKAH ANDA YAKIN? Seluruh data warga, iuran, kas, dan agenda akan dihapus permanen untuk memulai konfigurasi kosong.')) {
+                    localStorage.setItem('rt_warga', JSON.stringify([]));
+                    localStorage.setItem('rt_iuran', JSON.stringify([]));
+                    localStorage.setItem('rt_kas', JSON.stringify([]));
+                    localStorage.setItem('rt_agenda', JSON.stringify([]));
+                    localStorage.setItem('rt_pengumuman', JSON.stringify([]));
+                    
+                    alert('Database telah dikosongkan. Anda dapat mulai menginput data baru.');
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // Trigger Reset Demo
+            document.getElementById('btnResetDemo').addEventListener('click', () => {
+                if (confirm('Ini akan menghapus data saat ini dan memuat ulang dataset simulasi default (95 KK, 350 Warga, dll). Lanjutkan?')) {
+                    // Remove localStorage keys so that app.js fallback generator triggers fresh datasets
+                    localStorage.removeItem('rt_warga');
+                    localStorage.removeItem('rt_iuran');
+                    localStorage.removeItem('rt_kas');
+                    localStorage.removeItem('rt_agenda');
+                    localStorage.removeItem('rt_pengumuman');
+                    localStorage.removeItem('rt_settings');
+
+                    alert('Database berhasil di-reset ke data simulasi default!');
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

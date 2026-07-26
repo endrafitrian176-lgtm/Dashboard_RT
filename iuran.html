@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Iuran - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar Desktop -->
+    <div class="sidebar d-flex flex-column p-3 text-white bg-dark">
+        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-home fa-lg me-2 text-primary"></i>
+            <span class="fs-5 fw-bold">RT 05 Cempaka</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="warga.html" class="nav-link"><i class="fas fa-users"></i> Data Warga</a></li>
+            <li><a href="iuran.html" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+            <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
+            <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+            <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+            <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-light btn-sm w-100" id="darkModeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <!-- Offcanvas Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title fw-bold"><i class="fas fa-home text-primary me-2"></i>RT 05 Cempaka</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav nav-pills flex-column p-3">
+                <li><a href="index.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="warga.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-users"></i> Data Warga</a></li>
+                <li><a href="iuran.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+                <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
+                <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+                <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+                <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Navbar Top -->
+        <nav class="top-navbar d-flex align-items-center justify-content-between navbar-light">
+            <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h4 class="m-0 fw-bold d-none d-sm-block">Layanan Iuran Warga</h4>
+            <h5 class="m-0 fw-bold d-sm-none">Iuran Warga</h5>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> RT 05 RW 02</span>
+            </div>
+        </nav>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Header Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                    <h2 class="fw-bold mb-1">Informasi Iuran Bulanan</h2>
+                    <p class="text-muted mb-0">Monitor penerimaan iuran, tagihan lunas, dan tunggakan warga.</p>
+                </div>
+                <div class="col-12 col-md-6 text-md-end no-print">
+                    <button class="btn btn-primary" id="addBillingBtn" style="display: none;" data-bs-toggle="modal" data-bs-target="#modalAddBilling">
+                        <i class="fas fa-plus-circle me-1"></i> Buat Tagihan Baru
+                    </button>
+                    <button class="btn btn-outline-danger ms-2" id="deletePeriodBtn" style="display: none;" data-bs-toggle="modal" data-bs-target="#modalDeletePeriod">
+                        <i class="fas fa-trash-alt me-1"></i> Hapus Periode
+                    </button>
+                    <button class="btn btn-outline-success ms-2" id="exportBtn">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </button>
+                    <button class="btn btn-outline-danger ms-2" onclick="window.print()">
+                        <i class="fas fa-print me-1"></i> Print
+                    </button>
+                </div>
+            </div>
+
+            <!-- Financial Metrics Cards -->
+            <div class="row g-3 mb-4">
+                <!-- Metric 1: Total Tagihan -->
+                <div class="col-12 col-md-4">
+                    <div class="card p-3 border-start border-primary border-4">
+                        <h6 class="text-muted mb-1 text-uppercase fw-bold" style="font-size: 0.75rem;">Total Tagihan</h6>
+                        <h3 class="fw-bold mb-0 text-primary" id="metricTotal">Rp 0</h3>
+                        <small class="text-muted">Total target iuran bulanan berjalan</small>
+                    </div>
+                </div>
+                <!-- Metric 2: Total Lunas -->
+                <div class="col-12 col-md-4">
+                    <div class="card p-3 border-start border-success border-4">
+                        <h6 class="text-muted mb-1 text-uppercase fw-bold" style="font-size: 0.75rem;">Total Lunas</h6>
+                        <h3 class="fw-bold mb-0 text-success" id="metricLunas">Rp 0</h3>
+                        <small class="text-muted">Dana iuran yang sudah terkumpul</small>
+                    </div>
+                </div>
+                <!-- Metric 3: Total Outstanding -->
+                <div class="col-12 col-md-4">
+                    <div class="card p-3 border-start border-danger border-4">
+                        <h6 class="text-muted mb-1 text-uppercase fw-bold" style="font-size: 0.75rem;">Total Outstanding (Tunggakan)</h6>
+                        <h3 class="fw-bold mb-0 text-danger" id="metricOutstanding">Rp 0</h3>
+                        <small class="text-muted">Dana yang belum terbayar oleh warga</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="card p-3 mb-4 no-print">
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Cari Kepala Keluarga...">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">Semua Status</option>
+                            <option value="Lunas">Lunas</option>
+                            <option value="Belum Lunas">Belum Lunas</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <select class="form-select" id="bulanFilter">
+                            <option value="">Semua Bulan</option>
+                            <option value="Januari">Januari</option>
+                            <option value="Februari">Februari</option>
+                            <option value="Maret">Maret</option>
+                            <option value="April">April</option>
+                            <option value="Mei">Mei</option>
+                            <option value="Juni">Juni</option>
+                            <option value="Juli">Juli</option>
+                            <option value="Agustus">Agustus</option>
+                            <option value="September">September</option>
+                            <option value="Oktober">Oktober</option>
+                            <option value="November">November</option>
+                            <option value="Desember">Desember</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <select class="form-select" id="tahunFilter">
+                            <option value="">Semua Tahun</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2 ms-md-auto text-end text-muted small d-flex align-items-center justify-content-end" id="summaryCounter">
+                        Menampilkan 0 data
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 70px;">No</th>
+                                <th>Nama Warga (Kepala Keluarga)</th>
+                                <th>Alamat / No. Rumah</th>
+                                <th>Bulan Tagihan</th>
+                                <th class="text-end">Nominal Iuran</th>
+                                <th class="text-center" style="width: 180px;">Status</th>
+                                <th class="text-center no-print" style="width: 150px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="iuranTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Tip Banner -->
+            <div class="alert alert-info mt-4 no-print d-flex align-items-center gap-3 py-3" role="alert">
+                <i class="fas fa-info-circle fa-lg text-info"></i>
+                <div>
+                    <strong>Petunjuk:</strong> Klik tombol status di kolom aksi untuk melakukan verifikasi pembayaran. Data tersimpan di web browser Anda secara lokal.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Buat Tagihan Baru -->
+    <div class="modal fade" id="modalAddBilling" tabindex="-1" aria-labelledby="modalAddBillingLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content card">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="modalAddBillingLabel"><i class="fas fa-file-invoice-dollar me-2 text-primary"></i>Buat Periode Tagihan Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addBillingForm">
+                    <div class="modal-body">
+                        <p class="small text-muted">Fitur ini akan secara otomatis membuat rekaman tagihan iuran berkala bagi **seluruh Kepala Keluarga** yang terdaftar saat ini.</p>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label for="billingBulan" class="form-label fw-semibold">Bulan</label>
+                                <select class="form-select" id="billingBulan" required>
+                                    <option value="Januari">Januari</option>
+                                    <option value="Februari">Februari</option>
+                                    <option value="Maret">Maret</option>
+                                    <option value="April">April</option>
+                                    <option value="Mei">Mei</option>
+                                    <option value="Juni">Juni</option>
+                                    <option value="Juli">Juli</option>
+                                    <option value="Agustus">Agustus</option>
+                                    <option value="September">September</option>
+                                    <option value="Oktober">Oktober</option>
+                                    <option value="November">November</option>
+                                    <option value="Desember">Desember</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="billingTahun" class="form-label fw-semibold">Tahun</label>
+                                <select class="form-select" id="billingTahun" required>
+                                    <option value="2025">2025</option>
+                                    <option value="2026" selected>2026</option>
+                                    <option value="2027">2027</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="billingNominal" class="form-label fw-semibold">Nominal Kustom (Opsional)</label>
+                                <input type="number" class="form-control" id="billingNominal" placeholder="Kosongkan untuk tarif default (KL: 75rb, Full: 120rb)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top bg-light-subtle">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Buat Tagihan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hapus Periode -->
+    <div class="modal fade" id="modalDeletePeriod" tabindex="-1" aria-labelledby="modalDeletePeriodLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content card">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold text-danger" id="modalDeletePeriodLabel"><i class="fas fa-trash-alt me-2 text-danger"></i>Hapus Periode Tagihan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="deletePeriodForm">
+                    <div class="modal-body">
+                        <p class="small text-muted">Fitur ini akan menghapus **seluruh data iuran warga** untuk periode bulan dan tahun yang Anda pilih secara permanen.</p>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="deletePeriodSelect" class="form-label fw-semibold">Pilih Periode Tagihan yang Akan Dihapus</label>
+                                <select class="form-select" id="deletePeriodSelect" required>
+                                    <!-- Dynamic -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top bg-light-subtle">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Hapus Periode</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        let rawIuran = [];
+        let filteredIuran = [];
+        let wargaList = [];
+        let wargaMap = {};
+        let wargaAddrMap = {};
+        let wargaNameAddrMap = {};
+        const kasChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('rt_kas_channel') : null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isUserAdmin = isPengurus();
+            if (!isUserAdmin) {
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    table th:nth-child(7),
+                    table td:nth-child(7) {
+                        display: none !important;
+                    }
+                `;
+                document.head.appendChild(style);
+
+                const tipAlert = document.querySelector('.alert-info');
+                if (tipAlert) {
+                    tipAlert.innerHTML = `
+                        <i class="fas fa-info-circle fa-lg text-info"></i>
+                        <div>
+                            <strong>Informasi:</strong> Halaman ini menampilkan status pelunasan iuran warga. Silakan hubungi Bendahara RT jika ada ketidaksesuaian data.
+                        </div>
+                    `;
+                }
+            } else {
+                // Show "Buat Tagihan Baru" and "Hapus Periode" buttons for Admin
+                const addBtn = document.getElementById('addBillingBtn');
+                if (addBtn) addBtn.style.display = 'inline-block';
+                const delBtn = document.getElementById('deletePeriodBtn');
+                if (delBtn) delBtn.style.display = 'inline-block';
+            }
+
+            await refreshData();
+            // Ensure past paid iuran are recorded in kas (backfill missing entries)
+            await syncAllPaidIuranToKas();
+
+            // Bind filters
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+            document.getElementById('bulanFilter').addEventListener('change', applyFilters);
+            document.getElementById('tahunFilter').addEventListener('change', applyFilters);
+
+            // Export Excel
+            document.getElementById('exportBtn').addEventListener('click', () => {
+                const headers = ['Nama Warga', 'Alamat', 'Periode', 'Status', 'Nominal'];
+                const rows = rawIuran.map(i => [
+                    (i.nokk && wargaMap[i.nokk]) || i.nama || 'Tidak Terdaftar',
+                    (i.nokk && wargaAddrMap[i.nokk]) || (i.nama && wargaNameAddrMap[i.nama.toLowerCase()]) || i.alamat || '-',
+                    `${i.bulan} ${i.tahun || '2026'}`,
+                    i.status,
+                    i.nominal
+                ]);
+                const s = getSettings();
+                exportToCSV(`laporan_iuran_rt_${s.rt}_rw_${s.rw}.csv`, headers, rows);
+            });
+
+            // Submit handler for creating new billing period
+            document.getElementById('addBillingForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const bulan = document.getElementById('billingBulan').value;
+                const tahun = document.getElementById('billingTahun').value;
+                const nominalOverride = parseInt(document.getElementById('billingNominal').value);
+
+                if (wargaList.length === 0) {
+                    alert('Tidak ada data Kepala Keluarga terdaftar di sistem!');
+                    return;
+                }
+
+                // Check for duplicates
+                const duplicate = rawIuran.some(i => i.bulan === bulan && i.tahun === tahun);
+                if (duplicate) {
+                    if (!confirm(`Periode tagihan untuk ${bulan} ${tahun} sudah ada. Ingin membuat duplikat untuk keluarga baru?`)) {
+                        return;
+                    }
+                }
+
+                // Append new iuran record for each registered family
+                const newRecords = wargaList.map(kk => {
+                    let rate = 120000; // default for Full
+                    if (kk.tipe_iuran === 'KL') {
+                        rate = 75000;
+                    }
+
+                    if (!isNaN(nominalOverride) && nominalOverride > 0) {
+                        rate = nominalOverride;
+                    }
+
+                        return {
+                            _id: generateId(),
+                            nokk: kk.nokk,
+                            nama: kk.kepalakeluarga, // fallback copy
+                            bulan: bulan,
+                            tahun: tahun,
+                            nominal: rate,
+                            status: 'Belum Lunas'
+                        };
+                });
+
+                rawIuran = rawIuran.concat(newRecords);
+                saveToStorage('iuran', rawIuran);
+
+                alert(`Tagihan untuk periode ${bulan} ${tahun} berhasil dibuat untuk ${wargaList.length} KK!`);
+                document.getElementById('addBillingForm').reset();
+                bootstrap.Modal.getInstance(document.getElementById('modalAddBilling')).hide();
+                refreshData();
+            });
+
+            // Submit handler for deleting period
+            document.getElementById('deletePeriodForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!isPengurus()) {
+                    alert('Akses Ditolak: Hanya Administrator yang dapat menghapus periode tagihan!');
+                    return;
+                }
+                const periodVal = document.getElementById('deletePeriodSelect').value;
+                if (!periodVal) {
+                    alert('Silakan pilih periode tagihan yang valid!');
+                    return;
+                }
+
+                const [bulan, tahun] = periodVal.split(' ');
+
+                const matches = rawIuran.filter(i => i.bulan === bulan && (i.tahun || '2026') === tahun);
+                if (matches.length === 0) {
+                    alert(`Tidak ditemukan data tagihan untuk periode ${bulan} ${tahun || '2026'}.`);
+                    return;
+                }
+
+                if (confirm(`Apakah Anda yakin ingin menghapus seluruh ${matches.length} record tagihan untuk periode ${bulan} ${tahun || '2026'}? Tindakan ini tidak dapat dibatalkan.`)) {
+                    rawIuran = rawIuran.filter(i => !(i.bulan === bulan && (i.tahun || '2026') === tahun));
+                    saveToStorage('iuran', rawIuran);
+                    
+                    alert(`Berhasil menghapus seluruh tagihan periode ${bulan} ${tahun}!`);
+                    bootstrap.Modal.getInstance(document.getElementById('modalDeletePeriod')).hide();
+                    refreshData();
+                }
+            });
+        });
+
+        async function refreshData() {
+            wargaList = await loadData('warga');
+            wargaMap = {};
+            wargaAddrMap = {};
+            wargaNameAddrMap = {};
+            wargaList.forEach(w => {
+                wargaMap[w.nokk] = w.kepalakeluarga;
+                wargaAddrMap[w.nokk] = w.alamat || '';
+                if (w.kepalakeluarga) {
+                    wargaNameAddrMap[w.kepalakeluarga.toLowerCase()] = w.alamat || '';
+                }
+            });
+            rawIuran = await loadData('iuran');
+            // Ensure each iuran record has a stable unique id for reliable kas linking
+            let __changed = false;
+            rawIuran.forEach(it => {
+                if (!it._id) {
+                    it._id = 'iuran_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+                    __changed = true;
+                }
+            });
+            if (__changed) saveToStorage('iuran', rawIuran);
+            populateDeletePeriods();
+            applyFilters();
+        }
+
+        function generateId() {
+            return 'iuran_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+        }
+
+        function populateDeletePeriods() {
+            const select = document.getElementById('deletePeriodSelect');
+            if (!select) return;
+            select.innerHTML = '';
+
+            const periods = [];
+            rawIuran.forEach(i => {
+                const pStr = `${i.bulan} ${i.tahun || '2026'}`;
+                if (!periods.includes(pStr)) {
+                    periods.push(pStr);
+                }
+            });
+
+            if (periods.length === 0) {
+                select.innerHTML = '<option value="">(Tidak ada periode tagihan)</option>';
+                return;
+            }
+
+            periods.forEach(p => {
+                select.innerHTML += `<option value="${p}">${p}</option>`;
+            });
+        }
+
+        function calculateMetrics() {
+            let total = 0;
+            let lunas = 0;
+            let outstanding = 0;
+
+            // Only calculate metrics for the current filtered/active dataset
+            filteredIuran.forEach(item => {
+                total += item.nominal;
+                if (item.status === 'Lunas') {
+                    lunas += item.nominal;
+                } else {
+                    outstanding += item.nominal;
+                }
+            });
+
+            document.getElementById('metricTotal').innerText = formatRupiah(total);
+            // Set metricLunas from kas to reflect actual pemasukan
+            document.getElementById('metricLunas').innerText = formatRupiah(lunas);
+            document.getElementById('metricOutstanding').innerText = formatRupiah(outstanding);
+
+            // Override the 'Total Lunas' card with the total pemasukan recorded in kas
+            setLunasFromKas();
+        }
+
+        async function setLunasFromKas() {
+            try {
+                const kas = await loadData('kas');
+                // Sum pemasukan entries (limit to kategori 'Iuran Bulanan' for correctness)
+                const pemasukan = kas.reduce((s, k) => {
+                    if (k.jenis === 'Pemasukan' && (!k.kategori || k.kategori === 'Iuran Bulanan' || String(k.kategori).toLowerCase().includes('iuran'))) {
+                        return s + (Number(k.nominal) || 0);
+                    }
+                    return s;
+                }, 0);
+                document.getElementById('metricLunas').innerText = formatRupiah(pemasukan);
+            } catch (e) {
+                console.warn('setLunasFromKas failed', e);
+            }
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const status = document.getElementById('statusFilter').value;
+            const bulan = document.getElementById('bulanFilter').value;
+            const tahun = document.getElementById('tahunFilter').value;
+
+            // Preserve original rawIuran index on each filtered item so actions target the correct record
+            filteredIuran = rawIuran
+                .map((item, idx) => Object.assign({}, item, { __rawIndex: idx }))
+                .filter(i => {
+                    const namaKK = ((i.nokk && wargaMap[i.nokk]) || i.nama || '').toLowerCase();
+                    const matchSearch = namaKK.includes(search);
+                    const matchStatus = status === "" || i.status === status;
+                    const matchBulan = bulan === "" || i.bulan === bulan;
+                    const matchTahun = tahun === "" || (i.tahun || '2026') === tahun;
+                    return matchSearch && matchStatus && matchBulan && matchTahun;
+                });
+
+            calculateMetrics();
+            renderTable();
+        }
+
+        function renderTable() {
+            const body = document.getElementById('iuranTableBody');
+            body.innerHTML = '';
+
+            if (filteredIuran.length === 0) {
+                body.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">Data iuran tidak ditemukan.</td></tr>`;
+            } else {
+                filteredIuran.forEach((i, idx) => {
+                    const statusClass = i.status === 'Lunas' ? 'bg-success' : 'bg-danger';
+                    
+                    // Use preserved original raw index so button actions target exact record
+                    const rawIndex = i.__rawIndex;
+                    const namaKK = (i.nokk && wargaMap[i.nokk]) || i.nama || "Warga Tidak Terdaftar";
+                    const alamat = (i.nokk && wargaAddrMap[i.nokk]) || (i.nama && wargaNameAddrMap[i.nama.toLowerCase()]) || i.alamat || "-";
+
+                    body.innerHTML += `
+                        <tr>
+                            <td class="text-center font-monospace">${idx + 1}</td>
+                            <td class="fw-bold">${namaKK}</td>
+                            <td class="text-muted">${alamat}</td>
+                            <td>${i.bulan} ${i.tahun || '2026'}</td>
+                            <td class="text-end fw-semibold">${formatRupiah(i.nominal)}</td>
+                            <td class="text-center">
+                                <span class="badge ${statusClass} rounded-pill px-3 py-2">${i.status}</span>
+                            </td>
+                            <td class="text-center no-print">
+                                <button class="btn btn-sm ${i.status === 'Lunas' ? 'btn-outline-danger' : 'btn-outline-success'} py-1" onclick="toggleStatus(${rawIndex})">
+                                    ${i.status === 'Lunas' ? '<i class="fas fa-times-circle"></i> Set Belum Lunas' : '<i class="fas fa-check-circle"></i> Set Lunas'}
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger py-1 ms-1" onclick="deleteIuran(${rawIndex})">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            document.getElementById('summaryCounter').innerText = `Menampilkan ${filteredIuran.length} data`;
+        }
+
+        async function toggleStatus(rawIndex) {
+            const item = rawIuran[rawIndex];
+            const prevStatus = item.status;
+            item.status = item.status === 'Lunas' ? 'Belum Lunas' : 'Lunas';
+            saveToStorage('iuran', rawIuran);
+
+            // Sync with kas: add pemasukan when set Lunas, remove when unset
+            try {
+                let kas = await loadData('kas');
+                const namaKK = (item.nokk && wargaMap[item.nokk]) || item.nama || 'Tidak Terdaftar';
+                const periode = `${item.bulan} ${item.tahun || '2026'}`;
+                if (item.status === 'Lunas' && prevStatus !== 'Lunas') {
+                    const tanggal = new Date().toISOString().split('T')[0];
+                    const entry = {
+                        tanggal: tanggal,
+                        kategori: 'Iuran Bulanan',
+                        jenis: 'Pemasukan',
+                        keterangan: `Pembayaran Iuran - ${namaKK} (${periode})`,
+                        nominal: item.nominal,
+                        ref_iuran: item._id
+                    };
+                    kas.push(entry);
+                    saveToStorage('kas', kas);
+                    try {
+                        if (kasChannel) {
+                            kasChannel.postMessage({ type: 'kasUpdated' });
+                            console.log('iuran: posted kasUpdated via BroadcastChannel');
+                        }
+                    } catch(e){ console.warn('iuran: BroadcastChannel post failed', e); }
+                    console.log('iuran.toggleStatus: added kas entry', entry);
+                } else if (item.status !== 'Lunas' && prevStatus === 'Lunas') {
+                    // Try to remove by ref first for reliability
+                    let idx = kas.findIndex(k => k.ref_iuran && k.ref_iuran === item._id);
+                    if (idx === -1) {
+                        // Fallback to best-effort text match
+                        idx = kas.findIndex(k => k.jenis === 'Pemasukan' && k.kategori === 'Iuran Bulanan' && k.nominal === item.nominal && k.keterangan && k.keterangan.includes(namaKK) && k.keterangan.includes(item.bulan));
+                    }
+                    if (idx !== -1) {
+                        const removed = kas.splice(idx, 1);
+                        saveToStorage('kas', kas);
+                        try {
+                            if (kasChannel) {
+                                kasChannel.postMessage({ type: 'kasUpdated' });
+                                console.log('iuran: posted kasUpdated via BroadcastChannel (remove)');
+                            }
+                        } catch(e){ console.warn('iuran: BroadcastChannel post failed', e); }
+                        console.log('iuran.toggleStatus: removed kas entry', removed[0]);
+                    }
+                }
+            } catch (e) {
+                console.warn('Gagal menyinkronkan ke kas:', e);
+            }
+
+            calculateMetrics();
+            applyFilters();
+        }
+
+        async function deleteIuran(rawIndex) {
+            if (!isPengurus()) {
+                alert('Akses Ditolak: Hanya Administrator yang dapat menghapus data iuran!');
+                return;
+            }
+            if (!confirm('Apakah Anda yakin ingin menghapus data tagihan warga ini?')) return;
+
+            const item = rawIuran[rawIndex];
+            // If this record was paid, remove corresponding kas entry as well
+            try {
+                if (item.status === 'Lunas') {
+                    let kas = await loadData('kas');
+                    const namaKK = (item.nokk && wargaMap[item.nokk]) || item.nama || 'Tidak Terdaftar';
+                    // Prefer removal by ref if present
+                    let idx = kas.findIndex(k => k.ref_iuran && k.ref_iuran === item._id);
+                    if (idx === -1) {
+                        idx = kas.findIndex(k => k.jenis === 'Pemasukan' && k.kategori === 'Iuran Bulanan' && k.nominal === item.nominal && k.keterangan && k.keterangan.includes(namaKK) && k.keterangan.includes(item.bulan));
+                    }
+                    if (idx !== -1) {
+                        kas.splice(idx, 1);
+                        saveToStorage('kas', kas);
+                        try { if (kasChannel) kasChannel.postMessage({ type: 'kasUpdated' }); } catch(e){}
+                    }
+                }
+            } catch (e) {
+                console.warn('Gagal menyinkronkan penghapusan ke kas:', e);
+            }
+
+            rawIuran.splice(rawIndex, 1);
+            saveToStorage('iuran', rawIuran);
+            calculateMetrics();
+            applyFilters();
+        }
+
+        async function syncAllPaidIuranToKas() {
+            try {
+                let kas = await loadData('kas');
+                let added = 0;
+                rawIuran.forEach(item => {
+                    if (item.status === 'Lunas') {
+                        // check by ref first
+                        const existsByRef = kas.some(k => k.ref_iuran && k.ref_iuran === item._id);
+                        if (existsByRef) return;
+
+                        // fallback: match by category/type/nominal/name/month
+                        const namaKK = (item.nokk && wargaMap[item.nokk]) || item.nama || '';
+                        const match = kas.some(k => k.jenis === 'Pemasukan' && k.kategori === 'Iuran Bulanan' && k.nominal === item.nominal && k.keterangan && k.keterangan.includes(item.bulan) && (namaKK ? k.keterangan.includes(namaKK) : true));
+                        if (match) return;
+
+                        // create entry
+                        const tanggal = new Date().toISOString().split('T')[0];
+                        const periode = `${item.bulan} ${item.tahun || '2026'}`;
+                        const entry = {
+                            tanggal: tanggal,
+                            kategori: 'Iuran Bulanan',
+                            jenis: 'Pemasukan',
+                            keterangan: `Pembayaran Iuran - ${(namaKK || item.nama || 'Warga')} (${periode})`,
+                            nominal: item.nominal,
+                            ref_iuran: item._id
+                        };
+                        kas.push(entry);
+                        added++;
+                    }
+                });
+
+                if (added > 0) {
+                    saveToStorage('kas', kas);
+                    try {
+                        if (kasChannel) {
+                            kasChannel.postMessage({ type: 'kasUpdated' });
+                            console.log('iuran: posted kasUpdated via BroadcastChannel (backfill)');
+                        }
+                    } catch(e){ console.warn('iuran: BroadcastChannel post failed', e); }
+                    console.log(`syncAllPaidIuranToKas: added ${added} missing kas entries`);
+                } else {
+                    console.log('syncAllPaidIuranToKas: no missing kas entries found');
+                }
+            } catch (e) {
+                console.warn('syncAllPaidIuranToKas failed', e);
+            }
+        }
+    </script>
+</body>
+</html>

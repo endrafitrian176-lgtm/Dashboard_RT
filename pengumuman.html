@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman RT - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar Desktop -->
+    <div class="sidebar d-flex flex-column p-3 text-white bg-dark">
+        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-home fa-lg me-2 text-primary"></i>
+            <span class="fs-5 fw-bold">RT 05 Cempaka</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="warga.html" class="nav-link"><i class="fas fa-users"></i> Data Warga</a></li>
+            <li><a href="iuran.html" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+            <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
+            <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+            <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+            <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-light btn-sm w-100" id="darkModeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <!-- Offcanvas Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title fw-bold"><i class="fas fa-home text-primary me-2"></i>RT 05 Cempaka</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav nav-pills flex-column p-3">
+                <li><a href="index.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="warga.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-users"></i> Data Warga</a></li>
+                <li><a href="iuran.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+                <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
+                <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+                <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+                <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Navbar Top -->
+        <nav class="top-navbar d-flex align-items-center justify-content-between navbar-light">
+            <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h4 class="m-0 fw-bold d-none d-sm-block">Pusat Informasi Warga</h4>
+            <h5 class="m-0 fw-bold d-sm-none">Pengumuman</h5>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> RT 05 RW 02</span>
+            </div>
+        </nav>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Header Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
+                    <h2 class="fw-bold mb-1">Mading Pengumuman RT</h2>
+                    <p class="text-muted mb-0">Informasi terbaru, surat edaran, dan pengumuman resmi dari pengurus RT.</p>
+                </div>
+            </div>
+
+            <!-- Search Panel -->
+            <div class="card p-3 mb-4 no-print">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Cari judul pengumuman...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements Grid -->
+            <div class="row g-4" id="annGrid">
+                <!-- Javascript rendered -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Detail Modal -->
+    <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content card">
+                <div class="modal-header border-bottom">
+                    <div>
+                        <span class="badge bg-primary rounded-pill mb-2" id="modalDate"></span>
+                        <h5 class="modal-title fw-bold" id="modalDetailLabel">Judul Pengumuman</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p id="modalContent" style="line-height: 1.7; font-size: 1.05rem; white-space: pre-line;"></p>
+                    
+                    <!-- Attachment section -->
+                    <div class="card bg-light-subtle p-3 mt-4 border border-dashed rounded-3" id="attachmentBox">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-danger text-white px-3 py-2 rounded">
+                                    <i class="fas fa-file-pdf fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">Lampiran Resmi</h6>
+                                    <span class="small text-muted" id="attachmentName">Nama_File.pdf</span>
+                                </div>
+                            </div>
+                            <!-- Simulation of download using Blob/data urls -->
+                            <button class="btn btn-outline-danger" id="downloadBtn">
+                                <i class="fas fa-download me-1"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top bg-light-subtle">
+                    <button type="button" class="btn class-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        let rawAnn = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            rawAnn = await loadData('pengumuman');
+            
+            // Sort by Date (newest first)
+            rawAnn.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+
+            applyFilters();
+
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+        });
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = rawAnn.filter(a => a.judul.toLowerCase().includes(query) || a.isi.toLowerCase().includes(query));
+            renderGrid(filtered);
+        }
+
+        function renderGrid(anns) {
+            const grid = document.getElementById('annGrid');
+            grid.innerHTML = '';
+
+            if (anns.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Tidak ada pengumuman yang cocok.</h5>
+                    </div>
+                `;
+                return;
+            }
+
+            anns.forEach(a => {
+                const date = formatDateString(a.tanggal);
+                
+                grid.innerHTML += `
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card h-100 d-flex flex-column justify-content-between">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge bg-primary-subtle text-primary rounded-pill px-3">${date}</span>
+                                    ${a.lampiran ? '<span class="badge bg-danger-subtle text-danger"><i class="fas fa-paperclip"></i> PDF</span>' : ''}
+                                </div>
+                                <h5 class="fw-bold mb-2 text-dark text-opacity-85" style="font-size: 1.15rem; line-height: 1.4;">${a.judul}</h5>
+                                <p class="text-muted small text-truncate-3 mb-0" style="line-height: 1.6;">${a.isi}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 p-4 pt-0">
+                                <button class="btn btn-outline-primary btn-sm w-100 rounded-pill py-2 fw-semibold" onclick="openDetail(${a.id})">
+                                    Baca Selengkapnya
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openDetail(id) {
+            const a = rawAnn.find(item => item.id === id);
+            if (!a) return;
+
+            document.getElementById('modalDetailLabel').innerText = a.judul;
+            document.getElementById('modalDate').innerText = formatDateString(a.tanggal);
+            document.getElementById('modalContent').innerText = a.isi;
+
+            const attBox = document.getElementById('attachmentBox');
+            if (a.lampiran) {
+                attBox.style.display = 'block';
+                document.getElementById('attachmentName').innerText = a.lampiran;
+                
+                // Configure simulate download
+                document.getElementById('downloadBtn').onclick = () => {
+                    simulateDownload(a.lampiran, a.judul, a.isi);
+                };
+            } else {
+                attBox.style.display = 'none';
+            }
+
+            const detailModal = new bootstrap.Modal(document.getElementById('modalDetail'));
+            detailModal.show();
+        }
+
+        // Simulate downloading a realistic text file mock-up as pdf
+        function simulateDownload(filename, title, content) {
+            const fullDocText = `SURAT EDARAN RUKUN TETANGGA 05
+RW 02 KELURAHAN CEMPAKA
+==============================================
+
+Judul: ${title}
+Tanggal: ${formatDateString(new Date())}
+
+Laporan / Isi Pengumuman:
+${content}
+
+----------------------------------------------
+Dikeluarkan Oleh: Pengurus RT 05 RW 02
+            `;
+            const blob = new Blob([fullDocText], { type: 'text/plain;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename.replace('.pdf', '.txt')); // Download as txt for mock verification
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

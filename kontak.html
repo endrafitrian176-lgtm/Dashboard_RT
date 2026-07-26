@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubungi Pengurus RT - Sistem Informasi Rukun Tetangga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <style>
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color);
+        }
+        .contact-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Desktop -->
+    <div class="sidebar d-flex flex-column p-3 text-white bg-dark">
+        <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="fas fa-home fa-lg me-2 text-primary"></i>
+            <span class="fs-5 fw-bold">RT 05 Cempaka</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="warga.html" class="nav-link"><i class="fas fa-users"></i> Data Warga</a></li>
+            <li><a href="iuran.html" class="nav-link"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+            <li><a href="kasrt.html" class="nav-link"><i class="fas fa-wallet"></i> Kas RT</a></li>
+            <li><a href="agenda.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+            <li><a href="pengumuman.html" class="nav-link"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a></li>
+            <li><a href="dokumen.html" class="nav-link"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+            <li><a href="kontak.html" class="nav-link"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+        </ul>
+        <hr>
+        <button class="btn btn-outline-light btn-sm w-100" id="darkModeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <!-- Offcanvas Mobile Sidebar -->
+    <div class="offcanvas offcanvas-start text-white bg-dark" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title fw-bold"><i class="fas fa-home text-primary me-2"></i>RT 05 Cempaka</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav nav-pills flex-column p-3">
+                <li><a href="index.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="warga.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-users"></i> Data Warga</a></li>
+                <li><a href="iuran.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-file-invoice-dollar"></i> Iuran Warga</a></li>
+                <li><a href="kasrt.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-wallet"></i> Kas RT</a></li>
+                <li><a href="agenda.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-calendar-alt"></i> Agenda RT</a></li>
+                <li><a href="pengumuman.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-bullhorn"></i> Pengumuman</a></li>
+                <li><a href="galeri.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-images"></i> Galeri</a></li>
+                <li><a href="dokumen.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-folder-open"></i> Dokumen</a></li>
+                <li><a href="kontak.html" class="nav-link" data-bs-dismiss="offcanvas"><i class="fas fa-address-book"></i> Kontak Pengurus</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Navbar Top -->
+        <nav class="top-navbar d-flex align-items-center justify-content-between navbar-light">
+            <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h4 class="m-0 fw-bold d-none d-sm-block">Kontak Struktural RT</h4>
+            <h5 class="m-0 fw-bold d-sm-none">Hubungi RT</h5>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="fas fa-shield-alt me-1"></i> RT 05 RW 02</span>
+            </div>
+        </nav>
+
+        <!-- Content Body -->
+        <div class="content-body">
+            <!-- Header Section -->
+            <div class="row align-items-center mb-4">
+                <div class="col-12 col-md-8 mb-3 mb-md-0">
+                    <h2 class="fw-bold mb-1">Hubungi Pengurus RT</h2>
+                    <p class="text-muted mb-0">Daftar kontak pengurus RT 05 Cempaka yang siap melayani kebutuhan warga.</p>
+                </div>
+                <div class="col-12 col-md-4 text-md-end" id="addContactActionContainer" style="display: none;">
+                    <button class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAddContact">
+                        <i class="fas fa-user-plus me-1"></i> Tambah Pengurus
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contacts Cards Grid -->
+            <div class="row g-4" id="contactsGrid">
+                <!-- Javascript populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Kontak -->
+    <div class="modal fade" id="modalEditContact" tabindex="-1" aria-labelledby="modalEditContactLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content card">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="modalEditContactLabel">Ubah Informasi Pengurus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editContactForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="editContactIndex">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Jabatan (Tidak Dapat Diubah)</label>
+                            <input type="text" class="form-control" id="editContactRole" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editContactName" class="form-label fw-semibold">Nama Pengurus</label>
+                            <input type="text" class="form-control" id="editContactName" required placeholder="Contoh: Hendra Wijaya">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editContactPhone" class="form-label fw-semibold">No WhatsApp (Gunakan Format 628xxxxxxxxxx)</label>
+                            <input type="text" class="form-control" id="editContactPhone" required pattern="^[0-9]+$" placeholder="Contoh: 6281234567890">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editContactAvatarFile" class="form-label fw-semibold">Unggah Foto Profil (PNG/JPG)</label>
+                            <input type="file" class="form-control" id="editContactAvatarFile" accept="image/*">
+                            <small class="text-muted">Abaikan jika tidak ingin mengubah foto. Foto akan disimpan dalam browser (Base64).</small>
+                            <div class="mt-2 text-center">
+                                <img src="" id="editContactAvatarPreview" class="profile-img" style="display: none; width: 60px; height: 60px;">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editContactDesc" class="form-label fw-semibold">Deskripsi Tugas</label>
+                            <textarea class="form-control" id="editContactDesc" rows="3" required placeholder="Contoh: Melayani administrasi surat pengantar..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top bg-light-subtle">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan Kontak</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Kontak -->
+    <div class="modal fade" id="modalAddContact" tabindex="-1" aria-labelledby="modalAddContactLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content card">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="modalAddContactLabel"><i class="fas fa-user-plus me-2 text-primary"></i>Tambah Pengurus Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addContactForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="addContactRole" class="form-label fw-semibold">Jabatan / Peranan</label>
+                            <input type="text" class="form-control" id="addContactRole" required placeholder="Contoh: Wakil Ketua RT, Humas, Penasihat">
+                        </div>
+                        <div class="mb-3">
+                            <label for="addContactName" class="form-label fw-semibold">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="addContactName" required placeholder="Contoh: Joko Widodo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="addContactPhone" class="form-label fw-semibold">No WhatsApp (Gunakan Format 628xxxxxxxxxx)</label>
+                            <input type="text" class="form-control" id="addContactPhone" required pattern="^[0-9]+$" placeholder="Contoh: 6281234567890">
+                        </div>
+                        <div class="mb-3">
+                            <label for="addContactAvatarFile" class="form-label fw-semibold">Unggah Foto Profil (PNG/JPG)</label>
+                            <input type="file" class="form-control" id="addContactAvatarFile" accept="image/*" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addContactDesc" class="form-label fw-semibold">Deskripsi Tugas & Tanggung Jawab</label>
+                            <textarea class="form-control" id="addContactDesc" rows="3" required placeholder="Contoh: Mengatur hubungan masyarakat, agenda rapat berkala..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top bg-light-subtle">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah Pengurus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+        let listPengurus = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            listPengurus = await loadData('kontak');
+            renderContacts();
+
+            if (isPengurus()) {
+                const addBtn = document.getElementById('addContactActionContainer');
+                if (addBtn) addBtn.style.display = 'block';
+            }
+
+            // Form Submit for Edit Contact
+            document.getElementById('editContactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const idx = parseInt(document.getElementById('editContactIndex').value);
+                const name = document.getElementById('editContactName').value.trim();
+                const phone = document.getElementById('editContactPhone').value.trim();
+                const desc = document.getElementById('editContactDesc').value.trim();
+                const fileInput = document.getElementById('editContactAvatarFile');
+
+                const saveContact = (avatarData) => {
+                    listPengurus[idx].name = name;
+                    listPengurus[idx].phone = phone;
+                    listPengurus[idx].desc = desc;
+                    if (avatarData) {
+                        listPengurus[idx].avatar = avatarData;
+                    }
+
+                    saveToStorage('kontak', listPengurus);
+                    bootstrap.Modal.getInstance(document.getElementById('modalEditContact')).hide();
+                    renderContacts();
+                };
+
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        saveContact(event.target.result); // Base64 string representation
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    saveContact(null); // Keep existing avatar
+                }
+            });
+
+            // Form Submit for Add Contact
+            document.getElementById('addContactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const role = document.getElementById('addContactRole').value.trim();
+                const name = document.getElementById('addContactName').value.trim();
+                const phone = document.getElementById('addContactPhone').value.trim();
+                const desc = document.getElementById('addContactDesc').value.trim();
+                const fileInput = document.getElementById('addContactAvatarFile');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const newContact = {
+                            role: role,
+                            name: name,
+                            phone: phone,
+                            avatar: event.target.result, // Base64 string
+                            desc: desc
+                        };
+                        listPengurus.push(newContact);
+                        saveToStorage('kontak', listPengurus);
+                        
+                        document.getElementById('addContactForm').reset();
+                        bootstrap.Modal.getInstance(document.getElementById('modalAddContact')).hide();
+                        renderContacts();
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
+        });
+
+        function renderContacts() {
+            const grid = document.getElementById('contactsGrid');
+            grid.innerHTML = '';
+
+            const isUserAdmin = isPengurus();
+
+            listPengurus.forEach((p, idx) => {
+                const s = getSettings();
+                const waLink = `https://wa.me/${p.phone}?text=Halo%20Bapak/Ibu%20${p.name},%20saya%20warga%20RT%20${s.rt}%20ingin%20berkonsultasi%20mengenai%20layanan%20kewargaan.`;
+                
+                // Construct Card Actions (only if Admin)
+                let actionBtn = '';
+                if (isUserAdmin) {
+                    actionBtn = `
+                        <div class="row g-2 mt-2">
+                            <div class="col-6">
+                                <button class="btn btn-sm btn-outline-primary w-100 rounded-pill py-2 no-print" onclick="openEditContactModal(${idx})">
+                                    <i class="fas fa-edit me-1"></i> Edit
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-sm btn-outline-danger w-100 rounded-pill py-2 no-print" onclick="deleteContact(${idx})">
+                                    <i class="fas fa-trash-alt me-1"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                grid.innerHTML += `
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card h-100 p-4 text-center contact-card">
+                            <div class="mb-3">
+                                <img src="${p.avatar}" alt="${p.name}" class="profile-img shadow">
+                            </div>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill mb-2 px-3 py-2 fw-semibold" style="font-size: 0.8rem;">${p.role}</span>
+                            <h5 class="fw-bold mb-1">${p.name}</h5>
+                            <p class="small text-muted mb-3"><i class="fab fa-whatsapp me-1"></i>+${p.phone}</p>
+                            <p class="small text-muted flex-grow-1" style="line-height: 1.6;">${p.desc}</p>
+                            <div class="border-top pt-3 mt-3">
+                                <a href="${waLink}" target="_blank" class="btn btn-success w-100 rounded-pill py-2 mb-1">
+                                    <i class="fab fa-whatsapp me-2"></i>Hubungi via WhatsApp
+                                </a>
+                                ${actionBtn}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openEditContactModal(idx) {
+            const p = listPengurus[idx];
+            document.getElementById('editContactIndex').value = idx;
+            document.getElementById('editContactRole').value = p.role;
+            document.getElementById('editContactName').value = p.name;
+            document.getElementById('editContactPhone').value = p.phone;
+            document.getElementById('editContactAvatarFile').value = ''; // Reset input
+            
+            const preview = document.getElementById('editContactAvatarPreview');
+            if (p.avatar) {
+                preview.src = p.avatar;
+                preview.style.display = 'inline-block';
+            } else {
+                preview.style.display = 'none';
+            }
+            
+            document.getElementById('editContactDesc').value = p.desc;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalEditContact'));
+            modal.show();
+        }
+
+        function deleteContact(idx) {
+            if (confirm(`Apakah Anda yakin ingin menghapus pengurus "${listPengurus[idx].name}"?`)) {
+                listPengurus.splice(idx, 1);
+                saveToStorage('kontak', listPengurus);
+                renderContacts();
+            }
+        }
+    </script>
+</body>
+</html>
