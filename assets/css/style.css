@@ -1,0 +1,303 @@
+/* Global Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-color: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --sidebar-bg: #0f172a;
+    --sidebar-text: #94a3b8;
+    --sidebar-hover-text: #ffffff;
+    --sidebar-active-bg: #2563eb;
+    --sidebar-active-text: #ffffff;
+    --shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 24px 0 rgba(0, 0, 0, 0.08);
+    --accent-color: #3b82f6;
+    --card-radius: 12px;
+}
+
+body.dark-mode {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --sidebar-bg: #1e293b;
+    --sidebar-text: #94a3b8;
+    --sidebar-hover-text: #ffffff;
+    --sidebar-active-bg: #3b82f6;
+    --sidebar-active-text: #ffffff;
+    --shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+    --shadow-hover: 0 8px 24px 0 rgba(0, 0, 0, 0.3);
+    --accent-color: #60a5fa;
+}
+
+* {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Sidebar Styling for Desktop */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-bg);
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.02);
+}
+
+.sidebar .nav-link {
+    color: var(--sidebar-text);
+    padding: 12px 20px;
+    margin: 4px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--sidebar-hover-text);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar .nav-link.active {
+    color: var(--sidebar-active-text);
+    background-color: var(--sidebar-active-bg);
+}
+
+/* Main Content Layout */
+.main-wrapper {
+    margin-left: 280px;
+    min-height: 100vh;
+}
+
+.content-body {
+    padding: 30px;
+}
+
+/* Navbar / Top Bar */
+.top-navbar {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 30px;
+}
+
+/* Card overrides */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.border-bottom {
+    border-bottom-color: var(--border-color) !important;
+}
+
+.table {
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.table th {
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-bottom: 2px solid var(--border-color);
+}
+
+body.dark-mode .table th {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Form Styling overrides */
+.form-control, .form-select {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+body.dark-mode .form-control:focus, body.dark-mode .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(96, 165, 250, 0.25);
+}
+
+/* Responsive Overrides */
+@media (max-width: 991.98px) {
+    .sidebar {
+        display: none !important;
+    }
+    .main-wrapper {
+        margin-left: 0;
+    }
+    .top-navbar {
+        padding: 15px 20px;
+    }
+    .content-body {
+        padding: 20px 15px;
+    }
+}
+
+/* Offcanvas Sidebar styling for mobile */
+.offcanvas {
+    background-color: var(--sidebar-bg);
+    width: 280px !important;
+}
+
+.offcanvas .nav-link {
+    color: var(--sidebar-text);
+    padding: 12px 20px;
+    margin: 4px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.offcanvas .nav-link:hover {
+    color: var(--sidebar-hover-text);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.offcanvas .nav-link.active {
+    color: var(--sidebar-active-text);
+    background-color: var(--sidebar-active-bg);
+}
+
+/* Custom Calendar badges */
+.calendar-card {
+    display: flex;
+    overflow: hidden;
+}
+
+.calendar-badge {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    padding: 15px;
+    text-align: center;
+}
+
+.calendar-badge .month {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+.calendar-badge .day {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+    margin: 4px 0;
+}
+
+.calendar-badge .year {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Lightbox Modal styles */
+.lightbox-modal .modal-content {
+    background: transparent;
+    border: none;
+}
+
+.lightbox-img {
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* Dark Mode Toggle Switch visual */
+.mode-toggle-btn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+/* Toast container styling */
+.toast-container {
+    z-index: 1060;
+}
+
+/* Custom stats cards hover effects */
+.stats-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Print Styling overrides */
+@media print {
+    .sidebar, .top-navbar, .no-print, .btn, .pagination, .dataTables_filter, .dataTables_length, .modal, .toast-container {
+        display: none !important;
+    }
+    
+    .main-wrapper {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .content-body {
+        padding: 0 !important;
+    }
+    
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: #ffffff !important;
+    }
+    
+    .table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+    }
+    
+    .table th, .table td {
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+}
