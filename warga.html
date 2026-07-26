@@ -483,7 +483,7 @@
             } else {
                 pageItems.forEach((w, index) => {
                     // Find actual index in raw list for edits
-                    const rawIndex = rawWarga.findIndex(item => {     // Jika No KK ada dan tidak kosong, bandingkan berdasarkan No KK     if (w.nokk && w.nokk.trim() !== '') {         return item.nokk === w.nokk;     }     // Jika No KK kosong/tidak ada, bandingkan berdasarkan Nama Kepala Keluarga     return item.kepalakeluarga === w.kepalakeluarga; 
+                    const rawIndex = rawWarga.indexOf(w); 
                     const displayNoKK = w.nokk.startsWith('KK-AUTO-') ? '<span class="text-muted small">Belum Diisi</span>' : w.nokk;
                     
                     body.innerHTML += `
