@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "judul": "Undangan Rapat Pembentukan Panitia HUT RI ke-81",
+    "tanggal": "2026-07-25",
+    "isi": "Mengharap kehadiran seluruh perwakilan pemuda dan tokoh masyarakat RT pada hari Sabtu, 8 Agustus 2026, pukul 19:30 WIB bertempat di Balai Warga RT untuk pembentukan panitia pelaksana peringatan hari kemerdekaan Republik Indonesia ke-81. Kehadiran bapak/ibu sangat kami harapkan demi kelancaran agenda warga kita bersama.",
+    "lampiran": "surat_undangan_hut_ri.pdf"
+  },
+  {
+    "id": 2,
+    "judul": "Himbauan Keamanan Lingkungan & Wajib Lapor Tamu 1x24 Jam",
+    "tanggal": "2026-07-20",
+    "isi": "Sehubungan dengan meningkatnya isu keamanan di lingkungan sekitar, pengurus RT menghimbau agar setiap warga meningkatkan kewaspadaan, memastikan rumah terkunci saat ditinggal, dan melaporkan tamu yang menginap lebih dari 1x24 jam kepada Koordinator Keamanan atau Ketua RT. Kerjasama warga sangat kami hargai.",
+    "lampiran": "surat_edaran_keamanan.pdf"
+  },
+  {
+    "id": 3,
+    "judul": "Jadwal Kerja Bakti Massal Dan Pemberantasan Sarang Nyamuk (PSN)",
+    "tanggal": "2026-07-15",
+    "isi": "Diberitahukan kepada seluruh warga RT 05 bahwa akan diselenggarakan kegiatan Kerja Bakti Massal pada hari Minggu, 2 Agustus 2026 mulai pukul 07:30 WIB. Fokus kegiatan adalah membersihkan saluran air (selokan) di depan rumah masing-masing dan menguras genangan air guna mencegah perkembangbiakan nyamuk demam berdarah (DBD). Alat kebersihan harap membawa masing-masing.",
+    "lampiran": "edaran_kerja_bakti.pdf"
+  },
+  {
+    "id": 4,
+    "judul": "Layanan Imunisasi Anak Posyandu Cempaka Bulan Agustus",
+    "tanggal": "2026-07-10",
+    "isi": "Kegiatan Posyandu Balita bulan Agustus akan dilaksanakan pada hari Rabu, 12 Agustus 2026 pukul 08:00 - 11:00 WIB bertempat di Posyandu Cempaka. Layanan meliputi penimbangan berat badan, pengukuran height badan, imunisasi dasar, dan pembagian makanan tambahan (PMT) bergizi. Diharapkan ibu-ibu membawa balitanya ke posyandu.",
+    "lampiran": "jadwal_posyandu_agustus.pdf"
+  },
+  {
+    "id": 5,
+    "judul": "Penerimaan Donasi & Sponsor Kegiatan Kemerdekaan",
+    "tanggal": "2026-07-05",
+    "isi": "Dalam rangka menyambut hari kemerdekaan RI ke-81, Panitia RT membuka kesempatan bagi warga yang ingin berpartisipasi memberikan donasi sukarela maupun sponsorship untuk menunjang kebutuhan hadiah lomba warga dan panggung gembira. Donasi dapat diserahkan langsung kepada Bendahara RT atau melalui transfer ke rekening kas RT.",
+    "lampiran": "proposal_kegiatan_17an.pdf"
+  }
+]
