@@ -198,30 +198,33 @@
     <script src="assets/js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            // Load all required data
-            const warga = await loadData('warga');
-            const kas = await loadData('kas');
-            const agenda = await loadData('agenda');
-            const pengumuman = await loadData('pengumuman');
+    // Load all required data
+    const warga = await loadData('warga');
+    const kas = await loadData('kas');
+    const agenda = await loadData('agenda');
+    const pengumuman = await loadData('pengumuman');
+    const kontak = await loadData('kontak'); // 1. TAMBAHKAN PEMANGGILAN DATA KONTAK
 
-            // 1. Calculate Stats
-            const totalKK = warga.length;
-            const totalWarga = warga.reduce((sum, item) => sum + (parseInt(item.anggota, 10) || 0), 0);
-            
-            // Calculate Current Kas
-            let currentKas = 0;
-            kas.forEach(tx => {
-                if (tx.jenis === 'Pemasukan') {
-                    currentKas += tx.nominal;
-                } else {
-                    currentKas -= tx.nominal;
-                }
-            });
+    // 1. Calculate Stats
+    const totalKK = warga.length;
+    const totalWarga = warga.reduce((sum, item) => sum + (parseInt(item.anggota, 10) || 0), 0);
+    const totalPengurus = Array.isArray(kontak) ? kontak.length : 0; // 2. HITUNG TOTAL PENGURUS
 
-            // Update stats visually
-            document.getElementById('statKK').innerText = totalKK;
-            document.getElementById('statWarga').innerText = totalWarga;
-            document.getElementById('statKas').innerText = formatRupiah(currentKas);
+    // Calculate Current Kas
+    let currentKas = 0;
+    kas.forEach(tx => {
+        if (tx.jenis === 'Pemasukan') {
+            currentKas += tx.nominal;
+        } else {
+            currentKas -= tx.nominal;
+        }
+    });
+
+    // Update stats visually
+    document.getElementById('statKK').innerText = totalKK;
+    document.getElementById('statWarga').innerText = totalWarga;
+    document.getElementById('statPengurus').innerText = totalPengurus; // 3. TAMBAHKAN PEMBARUAN KE ELEMEN HTML
+    document.getElementById('statKas').innerText = formatRupiah(currentKas);
 
             // 2. Render Closest Agenda
             const now = new Date();
