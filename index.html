@@ -206,7 +206,7 @@
 
             // 1. Calculate Stats
             const totalKK = warga.length;
-            const totalWarga = warga.reduce((sum, item) => sum + item.anggota, 0);
+            const totalWarga = warga.reduce((sum, item) => sum + (parseInt(item.anggota, 10) || 0), 0);
             
             // Calculate Current Kas
             let currentKas = 0;
